@@ -31,15 +31,13 @@ public class UpdateInfoContractView extends JFrame {
 
         jPanelHeader.add(labelHeader);
 
-        JPanel jPanelBody = new JPanel(new GridLayout(4,2,20,20));
+        JPanel jPanelBody = new JPanel(new GridLayout(4,2,40,20));
 
         JLabel labelRepre = new JLabel("Tên người đại diện");
         labelRepre.setFont(fontBody);
         labelRepre.setForeground(new Color(39, 167, 239));
 
         JPanel panelRepreName = new JPanel(new GridLayout(2,1,5,0));
-        labelRepre.setFont(fontBody);
-        labelRepre.setForeground(new Color(39, 167, 239));
 
         inputRepreName = new JTextField(50);
         panelRepreName.add(labelRepre);

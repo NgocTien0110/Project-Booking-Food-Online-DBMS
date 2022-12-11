@@ -30,15 +30,13 @@ public class UpdateInfoAccView extends JFrame {
 
         jPanelHeader.add(labelHeader);
 
-        JPanel jPanelBody = new JPanel(new GridLayout(4,2,20,20));
+        JPanel jPanelBody = new JPanel(new GridLayout(4,2,40,20));
 
         JLabel labelUsername = new JLabel("Tên đăng nhập");
         labelUsername.setFont(fontBody);
         labelUsername.setForeground(new Color(39, 167, 239));
 
         JPanel panelUsername = new JPanel(new GridLayout(2,1,5,0));
-        labelUsername.setFont(fontBody);
-        labelUsername.setForeground(new Color(39, 167, 239));
 
         inputUsername = new JTextField(50);
         panelUsername.add(labelUsername);
@@ -117,11 +115,11 @@ public class UpdateInfoAccView extends JFrame {
         jPanelBodyRight.setPreferredSize(new Dimension(250,360));
 
         JButton jButtonBack = new JButton("Trở về");
-        jButtonBack.setPreferredSize(new Dimension(200,60));
+        jButtonBack.setPreferredSize(new Dimension(215,60));
         jButtonBack.setBackground(new Color(217, 217, 217));
 
         JButton jButtonUpdateInfo = new JButton("Cập nhật");
-        jButtonUpdateInfo.setPreferredSize(new Dimension(200,60));
+        jButtonUpdateInfo.setPreferredSize(new Dimension(215,60));
         jButtonUpdateInfo.setBackground(new Color(217, 217, 217));
 
         JPanel jPanelBot = new JPanel(new FlowLayout(FlowLayout.CENTER, 60,60));
