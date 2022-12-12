@@ -144,7 +144,6 @@ public class SignUpView extends JFrame {
         this.add(jPanelFooter, BorderLayout.SOUTH);
 
         this.setVisible(true);
-
     }
 
     public static void main(String[] args) {
