@@ -3,7 +3,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class DoiTac_UserView extends JPanel {
+public class DoiTac_AdminView extends JPanel {
     private JTextField searchField;
     private JTextField name;
     private JTextField email;
@@ -13,8 +13,12 @@ public class DoiTac_UserView extends JPanel {
     private JButton btnBack;
     private JButton btnViewListCN;
     private JButton btnSearch;
+    private JButton btnAdd;
+    private JButton btnEdit;
+    private JButton btnDelete;
+    private JButton btnSave;
     private JTable table;
-    public DoiTac_UserView()
+    public DoiTac_AdminView()
     {
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(1200, 600));
@@ -117,30 +121,33 @@ public class DoiTac_UserView extends JPanel {
         table.setCellSelectionEnabled(false);
         table.setDragEnabled(false);
         table.setFillsViewportHeight(true);
-        table.setPreferredScrollableViewportSize(new Dimension(800, 300));
+        table.setPreferredScrollableViewportSize(new Dimension(1050, 300));
         table.setFillsViewportHeight(true);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table.setRowSelectionAllowed(true);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         // insert data to table
         DefaultTableModel model = new DefaultTableModel();
-        Object[] column = {"Tên đối tác", "SL chi nhánh", "Email", "Số điện thoại","Địa chỉ"};
+        Object[] column = {"Mã đối tác","Tên đối tác", "SL chi nhánh","SL đơn","Mã số thuế", "Email", "Số điện thoại","Địa chỉ","Doanh thu tháng"};
         model.setColumnIdentifiers(column);
         table.setModel(model);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        // insert data to table
-//        Object [] row = new Object[5];
-//        for(int i=0; i<listPartner.size(); i++){
-//            row[0]=listPartner.get(i).getName();
-//            row[1]=listPartner.get(i).getAmountCN();
-//            row[2]=listPartner.get(i).getEmail();
-//            row[3]=listPartner.get(i).getPhone();
-//            row[4]=listPartner.get(i).getAddress();
-//            model.addRow(row);
-//        }
-        Object [][] row={{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"M-TP", "5", "mtp@gmail.com","9588242", "Sài gòn"},{"BTS", "3", "bts@gmail.com", "0123456789", "Hàn Quốc"}};
-        for(int i=0; i<row.length; i++){
-            model.addRow(row[i]);
+        String data[][]={{"DT00001","Công ty TNHH ABC", "2","5","TX00001","cc@gmail.com","0123456789","Hà Nội","10000000"},
+                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
+                {"DT00003","Công ty TNHH DEF", "3","2","TX00003","hsie@gamil.com","251251251","TP.HCM","4214124142"},
+                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
+                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
+                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
+                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
+                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
+                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
+                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
+                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
+                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
+                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
+                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"}};
+        for(int i=0;i<data.length;i++){
+            model.addRow(data[i]);
         }
 
         // add table to scrollpane
@@ -151,6 +158,33 @@ public class DoiTac_UserView extends JPanel {
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         // add scrollpane to frame
 
+        btnAdd=new JButton("Thêm");
+        btnAdd.setForeground(Color.WHITE);
+        btnAdd.setBackground(new Color(1, 119, 219));
+        btnAdd.setFont(new Font("Arial", Font.BOLD, 15));
+        btnEdit=new JButton("Cập nhật");
+        btnEdit.setForeground(Color.WHITE);
+        btnEdit.setBackground(new Color(1, 119, 219));
+        btnEdit.setFont(new Font("Arial", Font.BOLD, 15));
+        btnDelete=new JButton("Xóa");
+        btnDelete.setForeground(Color.WHITE);
+        btnDelete.setBackground(new Color(1, 119, 219));
+        btnDelete.setFont(new Font("Arial", Font.BOLD, 15));
+        btnSave=new JButton("Lưu");
+        btnSave.setForeground(Color.WHITE);
+        btnSave.setBackground(new Color(1, 119, 219));
+        btnSave.setFont(new Font("Arial", Font.BOLD, 15));
+        JPanel panelButtonBottom=new JPanel();
+        panelButtonBottom.setLayout(new BoxLayout(panelButtonBottom, BoxLayout.X_AXIS));
+        panelButtonBottom.add(btnAdd);
+        panelButtonBottom.add(Box.createRigidArea(new Dimension(100, 50)));
+        panelButtonBottom.add(btnEdit);
+        panelButtonBottom.add(Box.createRigidArea(new Dimension(100, 50)));
+        panelButtonBottom.add(btnDelete);
+        panelButtonBottom.add(Box.createRigidArea(new Dimension(100, 50)));
+        panelButtonBottom.add(btnSave);
+        JPanel bottom=new JPanel();
+        bottom.add(panelButtonBottom);
 
         JPanel tablePanel=new JPanel();
         tablePanel.add(scroll);
@@ -159,14 +193,7 @@ public class DoiTac_UserView extends JPanel {
         centerPanel.add(buttonPanel);
         centerPanel.add(tablePanel);
         add(centerPanel, BorderLayout.CENTER);
-
-
-
-
-
-
-
-
+        add(bottom, BorderLayout.PAGE_END);
         add(topPanel, BorderLayout.PAGE_START);
 
 
@@ -178,10 +205,13 @@ public class DoiTac_UserView extends JPanel {
     public void createAndShowGUI()
     {
         JFrame frame = new JFrame("DT_User");
+        JFrame.setDefaultLookAndFeelDecorated(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel newContentPane = new DoiTac_UserView();
+        JPanel newContentPane = new DoiTac_AdminView();
         newContentPane.setOpaque(true);
         frame.setContentPane(newContentPane);
+        //look and feel
+
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
@@ -191,7 +221,7 @@ public class DoiTac_UserView extends JPanel {
     {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new DoiTac_UserView().createAndShowGUI();
+                new DoiTac_AdminView().createAndShowGUI();
             }
         });
     }
