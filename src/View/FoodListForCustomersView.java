@@ -24,9 +24,6 @@ public class FoodListForCustomersView extends JFrame {
     private JTable tableFoodList;
     private JButton buttonBack;
     private JButton buttonAdd;
-    private JButton buttonUpdate;
-    private JButton buttonDelete;
-    private JButton buttonSave;
 
     private String[] columnNames = {"ID món", "ID chi nhánh", "Tên món ăn", "Mô tả", "Số lượng", "Giá"};
     private String [][] data = {
@@ -151,9 +148,24 @@ public class FoodListForCustomersView extends JFrame {
             }
         });
 
+        JScrollPane scrollPane = new JScrollPane(tableFoodList);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        scrollPane.getViewport().setBackground(new Color(255, 255, 255));
+        scrollPane.getViewport().setOpaque(true);
+
+        JPanel jPanelBodyBottom = new JPanel(new GridLayout(1, 2, 150, 0));
+        jPanelBodyBottom.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+        buttonAdd = new JButton("Thêm");
+        buttonBack = new JButton("Quay lại");
+
+        jPanelBodyBottom.add(buttonAdd);
+        jPanelBodyBottom.add(buttonBack);
+
+
 
         jPanelBody.add(jPanelBodyTop, BorderLayout.NORTH);
-        jPanelBody.add(new JScrollPane(tableFoodList), BorderLayout.CENTER);
+        jPanelBody.add(scrollPane, BorderLayout.CENTER);
+        jPanelBody.add(jPanelBodyBottom, BorderLayout.SOUTH);
 
 
         this.add(jPanelHeader, BorderLayout.NORTH);

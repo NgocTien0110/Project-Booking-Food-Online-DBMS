@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="013823cd-cfaa-4f27-babb-144a4c6e36fc" name="Changes" comment="feat: update SignUp View">
+    <list default="true" id="013823cd-cfaa-4f27-babb-144a4c6e36fc" name="Changes" comment="feat: Food list for customers and partners">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/FoodListForCustomersView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/FoodListForCustomersView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +85,7 @@
       <workItem from="1670775832794" duration="824000" />
       <workItem from="1670776853562" duration="4200000" />
       <workItem from="1670812747082" duration="3998000" />
-      <workItem from="1670829651642" duration="1129000" />
+      <workItem from="1670829651642" duration="1807000" />
     </task>
     <task id="LOCAL-00001" summary="feat: SignUp View">
       <created>1670780929408</created>
@@ -100,7 +101,14 @@
       <option name="project" value="LOCAL" />
       <updated>1670813123867</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="feat: Food list for customers and partners">
+      <created>1670830915072</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1670830915072</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -120,6 +128,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat: SignUp View" />
     <MESSAGE value="feat: update SignUp View" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: update SignUp View" />
+    <MESSAGE value="feat: Food list for customers and partners" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Food list for customers and partners" />
   </component>
 </project>
