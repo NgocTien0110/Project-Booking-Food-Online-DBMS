@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="013823cd-cfaa-4f27-babb-144a4c6e36fc" name="Changes" comment="feat: SignUp View">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="013823cd-cfaa-4f27-babb-144a4c6e36fc" name="Changes" comment="feat: update SignUp View">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/SignUpView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/SignUpView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +83,8 @@
       <workItem from="1670775420581" duration="292000" />
       <workItem from="1670775832794" duration="824000" />
       <workItem from="1670776853562" duration="4200000" />
-      <workItem from="1670812747082" duration="303000" />
+      <workItem from="1670812747082" duration="3998000" />
+      <workItem from="1670829651642" duration="1129000" />
     </task>
     <task id="LOCAL-00001" summary="feat: SignUp View">
       <created>1670780929408</created>
@@ -94,7 +93,14 @@
       <option name="project" value="LOCAL" />
       <updated>1670780929409</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="feat: update SignUp View">
+      <created>1670813123867</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1670813123867</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -113,6 +119,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat: SignUp View" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: SignUp View" />
+    <MESSAGE value="feat: update SignUp View" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: update SignUp View" />
   </component>
 </project>
