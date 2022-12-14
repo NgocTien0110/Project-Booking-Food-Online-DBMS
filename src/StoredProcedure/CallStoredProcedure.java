@@ -58,5 +58,24 @@ public class CallStoredProcedure {
             return -1;
         }
     }
+    public int ESP_DangNhap(String TenTaiKhoan, String MatKhau) {
+        int check = 0;
+        try {
+            PreparedStatement pst = con.prepareStatement("{call ESP_DangNhap(?,?)}");
+            pst.setString(1, TenTaiKhoan);
+            pst.setString(2, MatKhau);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                check = rs.getInt(1);
+            }
+            return check;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return check;
+        }
+    }
+
 }
 
