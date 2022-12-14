@@ -133,6 +133,9 @@ public class FoodListForPartners extends JFrame {
         JScrollPane scrollPane = new JScrollPane(tableFoodList);
         scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         scrollPane.getViewport().setBackground(new Color(255, 255, 255));
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        scrollPane.getViewport().setBackground(new Color(255, 255, 255));
+        scrollPane.getViewport().setOpaque(true);
 
         jPanelBody.add(jPanelBodyTop, BorderLayout.NORTH);
         jPanelBody.add(scrollPane, BorderLayout.CENTER);
