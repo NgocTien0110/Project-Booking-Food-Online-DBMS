@@ -1,10 +1,16 @@
 package View;
+import StoredProcedure.CallStoredProcedure;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ChiNhanh_AdminView extends JPanel {
-    private JComboBox status;
+    private JTextField status;
     private JTextField searchField;
     private JTextField name;
     private JTextField timeClose;
@@ -19,7 +25,7 @@ public class ChiNhanh_AdminView extends JPanel {
     private JButton btnEdit;
     private JButton btnDelete;
     private JButton btnSave;
-    public ChiNhanh_AdminView()
+    public ChiNhanh_AdminView(String maDT)
     {
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(1200, 600));
@@ -88,9 +94,7 @@ public class ChiNhanh_AdminView extends JPanel {
         JLabel status_label=new JLabel("Trạng thái:");
         status_label.setFont(new Font("Arial", Font.BOLD, 15));
         status_label.setForeground(new Color(1, 119, 219));
-        status=new JComboBox();
-        status.addItem("Đang hoạt động");
-        status.addItem("Đóng cửa");
+        status=new JTextField(10);
         JPanel statusPanel=new JPanel();
         statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.Y_AXIS));
         statusPanel.add(status_label);
@@ -140,33 +144,14 @@ public class ChiNhanh_AdminView extends JPanel {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         // insert data to table
         DefaultTableModel model = new DefaultTableModel();
-        Object[] column = {"Mã chi nhánh","Mã đối tác","Tên chi nhánh","Địa chỉ","Số điện thoại","Thời gian mở cửa","Thời gian đóng cửa","Trạng thái",
-        "Tên ngân hàng","Số tài khoản","Doanh thu tháng"};
+        Object[] column = {"Mã chi nhánh","Mã đối tác","Tên chi nhánh","Địa chỉ","Thời gian mở cửa","Thời gian đóng cửa","Trạng thái",
+                "Tên ngân hàng","Số tài khoản","Doanh thu tháng"};
         model.setColumnIdentifiers(column);
         table.setModel(model);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        Object [][] row={{"CN0001","DT0001","Chi nhánh 1","254, NVC","09083764","7:00","22:00","Đang hoạt động","Argibank","10203949","2491249"},
-        {"CN0002","DT0001","Chi nhánh 2","254, NVC","09083764","7:00","22:00","Đang hoạt động","Argibank","10203949","2491249"},
-        {"CN0003","DT0001","Chi nhánh 3","254, NVC","09083764","7:00","22:00","Đang hoạt động","Argibank","10203949","2491249"},
-        {"CN0004","DT0001","Chi nhánh 4","254, NVC","09083764","7:00","22:00","Đang hoạt động","Argibank","10203949","2491249"},
-        {"CN0005","DT0001","Chi nhánh 5","254, NVC","09083764","7:00","22:00","Đang hoạt động","Argibank","10203949","2491249"},
-        {"CN0006","DT0001","Chi nhánh 6","254, NVC","09083764","7:00","22:00","Đang hoạt động","Argibank","10203949","2491249"},
-        {"CN0007","DT0001","Chi nhánh 7","254, NVC","09083764","7:00","22:00","Đang hoạt động","Argibank","10203949","2491249"},
-        {"CN0008","DT0001","Chi nhánh 8","254, NVC","09083764","7:00","22:00","Đang hoạt động","Argibank","10203949","2491249"},
-        {"CN0009","DT0001","Chi nhánh 9","254, NVC","09083764","7:00","22:00","Đang hoạt động","Argibank","10203949","2491249"},
-        {"CN0010","DT0001","Chi nhánh 10","254, NVC","09083764","7:00","22:00","Đang hoạt động","Argibank","10203949","2491249"},
-        {"CN0011","DT0001","Chi nhánh 11","254, NVC","09083764","7:00","22:00","Đang hoạt động","Argibank","10203949","2491249"},
-        {"CN0012","DT0001","Chi nhánh 12","254, NVC","09083764","7:00","22:00","Đang hoạt động","Argibank","10203949","2491249"},
-        {"CN0013","DT0001","Chi nhánh 13","254, NVC","09083764","7:00","22:00","Đang hoạt động","Argibank","10203949","2491249"},
-        {"CN0014","DT0001","Chi nhánh 14","254, NVC","09083764","7:00","22:00","Đang hoạt động","Argibank","10203949","2491249"},
-        {"CN0015","DT0001","Chi nhánh 15","254, NVC","09083764","7:00","22:00","Đang hoạt động","Argibank","10203949","2491249"},
-        {"CN0016","DT0001","Chi nhánh 16","254, NVC","09083764","7:00","22:00","Đang hoạt động","Argibank","10203949","2491249"},
-        {"CN0017","DT0001","Chi nhánh 17","254, NVC","09083764","7:00","22:00","Đang hoạt động","Argibank","10203949","2491249"},
-        {"CN0018","DT0001","Chi nhánh 18","254, NVC","09083764","7:00","22:00","Đang hoạt động","Argibank","10203949","2491249"},
-        {"CN0019","DT0001","Chi nhánh 19","254, NVC","09083764","7:00","22:00","Đang hoạt động","Argibank","10203949","2491249"}};
-        for(int i=0; i<row.length; i++){
-            model.addRow(row[i]);
-        }
+        CallStoredProcedure call=new CallStoredProcedure();
+        call.ESP_XemDanhSachChiNhanhAdmin(model,maDT);
+
 
         // add table to scrollpane
         JScrollPane scroll = new JScrollPane(table);
@@ -216,11 +201,38 @@ public class ChiNhanh_AdminView extends JPanel {
 
 
 
-
-
-
-
         add(topPanel, BorderLayout.PAGE_START);
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int i = table.getSelectedRow();
+                name.setText(model.getValueAt(i, 1).toString());
+                phone.setText(model.getValueAt(i, 2).toString());
+                address.setText(model.getValueAt(i, 3).toString());
+                timeOpen.setText(model.getValueAt(i, 4).toString());
+                timeClose.setText(model.getValueAt(i, 5).toString());
+                status.setText(model.getValueAt(i, 6).toString());
+
+            }
+        });
+
+        btnEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = table.getSelectedRow();
+                if (row == -1) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn chi nhánh cần cập nhật");
+                } else {
+                    call.sp_CapNhatTinhTrangCN(maDT,table.getValueAt(row, 0).toString(),status.getText());
+                    model.setValueAt(status.getText(), row, 6);
+                    status.setText(status.getText());
+                    JOptionPane.showMessageDialog(null, "Cập nhật thành công");
+
+
+
+                }
+            }
+        });
 
 
 
@@ -228,11 +240,11 @@ public class ChiNhanh_AdminView extends JPanel {
 
 
     }
-    public void createAndShowGUI()
+    public void createAndShowGUI(String maDT)
     {
         JFrame frame = new JFrame("Danh sách chi nhánh");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel newContentPane = new ChiNhanh_AdminView();
+        JPanel newContentPane = new ChiNhanh_AdminView(maDT);
         newContentPane.setOpaque(true);
         frame.setContentPane(newContentPane);
         frame.pack();
@@ -240,14 +252,7 @@ public class ChiNhanh_AdminView extends JPanel {
         frame.setLocationRelativeTo(null);
 
     }
-    public static void main(String[] args)
-    {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new ChiNhanh_AdminView().createAndShowGUI();
-            }
-        });
-    }
+
 
 
 

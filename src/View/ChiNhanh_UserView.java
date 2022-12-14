@@ -1,5 +1,6 @@
 package View;
 import Model.ChiNhanhModel;
+import StoredProcedure.CallStoredProcedure;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -150,12 +151,8 @@ public class ChiNhanh_UserView extends JPanel {
         model.setColumnIdentifiers(column);
         table.setModel(model);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        ArrayList<ChiNhanhModel> chiNhanhModel=DAO.ChiNhanhDAO.getInstance().selectAll();
-        for(ChiNhanhModel cn:chiNhanhModel){
-            if(cn.getMaDoiTac().equalsIgnoreCase(maDT)) {
-                model.addRow(new Object[]{cn.getTenChiNhanh(), cn.getMaDoiTac(), cn.getDCChiNhanh(), cn.getThoiGianMoCua(), cn.getThoiGianDongCua(), cn.getTinhTrangHoatDong()});
-            }
-        }
+        CallStoredProcedure call=new CallStoredProcedure();
+        call.ESP_XemDanhSachChiNhanhUser(model,maDT);
         // add table to scrollpane
         JScrollPane scroll = new JScrollPane(table);
         scroll.setHorizontalScrollBarPolicy(
@@ -190,21 +187,20 @@ public class ChiNhanh_UserView extends JPanel {
         status.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
-                table.setRowSorter(sorter);
-                if(status.getSelectedItem().toString().equalsIgnoreCase("Đang hoạt động")){
+                if (status.getSelectedItem().toString().equals("Tất cả")) {
+                    model.setRowCount(0);
+                    CallStoredProcedure call = new CallStoredProcedure();
+                    call.ESP_XemDanhSachChiNhanhUser(model, maDT);
+                } else if (status.getSelectedItem().toString().equals("Đang hoạt động")) {
+                    model.setRowCount(0);
+                    CallStoredProcedure call = new CallStoredProcedure();
+                    call.sp_TimKiemChiNhanhHD(model, maDT);
 
-                    sorter.setRowFilter(RowFilter.regexFilter("Đang hoạt động"));
-
-
+                } else if (status.getSelectedItem().toString().equals("Đóng cửa")) {
+                    model.setRowCount(0);
+                    CallStoredProcedure call = new CallStoredProcedure();
+                    call.ESP_XemDanhSachChiNhanhUser(model, maDT);
                 }
-                else if(status.getSelectedItem().toString().equalsIgnoreCase("Đóng cửa")){
-                    sorter.setRowFilter(RowFilter.regexFilter("Đóng cửa"));
-                }
-                else{
-                    sorter.setRowFilter(null);
-                }
-
             }
         });
 

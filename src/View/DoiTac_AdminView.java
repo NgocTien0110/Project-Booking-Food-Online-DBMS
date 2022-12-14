@@ -1,9 +1,12 @@
 package View;
 import StoredProcedure.CallStoredProcedure;
 
+import javax.print.attribute.standard.JobMessageFromOperator;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -236,6 +239,19 @@ public class DoiTac_AdminView extends JPanel {
                 phone.setText(model.getValueAt(i, 6).toString());
                 address.setText(model.getValueAt(i, 7).toString());
                 doanhthu.setText(model.getValueAt(i, 8).toString());
+            }
+        });
+        btnViewListCN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(madt.getText().equals("")){
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn đối tác cần xem chi nhánh");
+                }
+                else{
+                    Window win = SwingUtilities.getWindowAncestor(DoiTac_AdminView.this);
+                    win.dispose();
+                    new ChiNhanh_AdminView(madt.getText()).createAndShowGUI(madt.getText());
+                }
             }
         });
 
