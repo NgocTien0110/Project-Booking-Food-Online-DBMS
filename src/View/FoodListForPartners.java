@@ -1,10 +1,15 @@
 package View;
 
+
+import DAO.ThucDonDAO;
+import Model.ThucDonModel;
+import StoredProcedure.XEM_MON_AN;
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 /**
  * View
@@ -28,27 +33,10 @@ public class FoodListForPartners extends JFrame {
     private JButton buttonDelete;
     private JButton buttonSave;
 
-    private String[] columnNames = {"ID món", "ID chi nhánh", "Tên món ăn", "Mô tả", "Số lượng", "Giá"};
-    private String [][] data = {
-            {"1", "1", "Bún bò", "Bún bò ngon", "100", "10000"},
-            {"2", "1", "Bún bò", "Bún bò ngon", "200", "10000"},
-            {"3", "1", "Bún bò", "Bún bò ngon", "300", "10000"},
-            {"4", "1", "Bún bò", "Bún bò ngon", "400", "10000"},
-            {"5", "1", "Bún bò", "Bún bò ngon", "100", "10000"},
-            {"6", "1", "Bún bò", "Bún bò ngon", "100", "10000"},
-            {"7", "1", "Bún bò", "Bún bò ngon", "100", "10000"},
-            {"8", "1", "Bún bò", "Bún bò ngon", "100", "10000"},
-            {"9", "1", "Bún bò", "Bún bò ngon", "100", "10000"},
-            {"10", "1", "Bún bò", "Bún bò ngon", "100", "10000"},
-            {"11", "1", "Bún bò", "Bún bò ngon", "100", "10000"},
-            {"12", "1", "Bún bò", "Bún bò ngon", "100", "10000"},
-            {"13", "1", "Bún bò", "Bún bò ngon", "100", "10000"},
-            {"14", "1", "Bún bò", "Bún bò ngon", "100", "10000"},
-            {"15", "1", "Bún bò", "Bún bò ngon", "100", "10000"},
-            {"16", "1", "Bún bò", "Bún bò ngon", "100", "10000"},
-            {"17", "1", "Bún bò", "Bún bò ngon", "100", "10000"}
-    };
-    public FoodListForPartners() {
+    private String[] columnNames = {"ID món", "Chi nhánh", "Tên món ăn", "Mô tả", "Số lượng", "Giá"};
+
+    ArrayList<ThucDonModel> list = ThucDonDAO.getInstance().selectAll();
+    public FoodListForPartners(String maDoiTac, String maChiNhanh) {
         JFrame.setDefaultLookAndFeelDecorated(true);
         this.setTitle("Danh sách món ăn");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -91,7 +79,7 @@ public class FoodListForPartners extends JFrame {
         jPanelQuantity.add(inputQuantity);
 
         JPanel jPanelBrand = new JPanel(new GridLayout(1, 2, 0, 0));
-        JLabel labelBrand = new JLabel("Nhãn hiệu");
+        JLabel labelBrand = new JLabel("Chi nhánh");
         inputBrand = new JTextField();
         jPanelBrand.add(labelBrand);
         jPanelBrand.add(inputBrand);
@@ -114,7 +102,8 @@ public class FoodListForPartners extends JFrame {
         jPanelBodyTop.add(jPanelPrice);
         jPanelBodyTop.add(jPanelDescription);
 
-        tableFoodList = new JTable(data, columnNames);
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        tableFoodList = new JTable(model);
         tableFoodList.setRowHeight(30);
         tableFoodList.setFont(new Font("Arial", Font.PLAIN, 15));
         tableFoodList.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
@@ -137,17 +126,26 @@ public class FoodListForPartners extends JFrame {
         tableFoodList.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         tableFoodList.setRowSelectionAllowed(true);
         tableFoodList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        tableFoodList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+        XEM_MON_AN kh_xem_mon_an = new XEM_MON_AN();
+        kh_xem_mon_an.KH_XEM_MON_AN(model, maDoiTac, maChiNhanh);
+
+        JScrollPane scrollPane = new JScrollPane(tableFoodList);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        scrollPane.getViewport().setBackground(new Color(255, 255, 255));
+
+        jPanelBody.add(jPanelBodyTop, BorderLayout.NORTH);
+        jPanelBody.add(scrollPane, BorderLayout.CENTER);
+
+        tableFoodList.addMouseListener(new MouseAdapter() {
             @Override
-            public void valueChanged(ListSelectionEvent e) {
+            public void mouseClicked(MouseEvent e) {
                 int row = tableFoodList.getSelectedRow();
-                if (row >= 0) {
-                    inputFoodName.setText(tableFoodList.getValueAt(row, 2).toString());
-                    inputQuantity.setText(tableFoodList.getValueAt(row, 4).toString());
-                    inputBrand.setText(tableFoodList.getValueAt(row, 3).toString());
-                    inputPrice.setText(tableFoodList.getValueAt(row, 5).toString());
-                    inputDescription.setText(tableFoodList.getValueAt(row, 3).toString());
-                }
+                inputFoodName.setText(tableFoodList.getValueAt(row, 2).toString());
+                inputQuantity.setText(tableFoodList.getValueAt(row, 4).toString());
+                inputBrand.setText(tableFoodList.getValueAt(row, 1).toString());
+                inputPrice.setText(tableFoodList.getValueAt(row, 5).toString());
+                inputDescription.setText(tableFoodList.getValueAt(row, 3).toString());
             }
         });
 
@@ -171,12 +169,11 @@ public class FoodListForPartners extends JFrame {
         this.add(jPanelHeader, BorderLayout.NORTH);
         this.add(jPanelBody, BorderLayout.CENTER);
 
-
         this.setVisible(true);
 
     }
 
     public static void main(String[] args) {
-        new FoodListForPartners();
+        new FoodListForPartners( "DT000001", "CN000002");
     }
 }
