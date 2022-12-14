@@ -1,10 +1,18 @@
 package View;
+import StoredProcedure.CallStoredProcedure;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class DoiTac_AdminView extends JPanel {
     private JTextField searchField;
+    private JTextField madt;
+    private JTextField sldon;
+    private JTextField mst;
+    private JTextField doanhthu;
     private JTextField name;
     private JTextField email;
     private JTextField phone;
@@ -43,7 +51,6 @@ public class DoiTac_AdminView extends JPanel {
         name_label.setFont(new Font("Arial", Font.BOLD, 15));
         name_label.setForeground(new Color(1, 119, 219));
         name=new JTextField(10);
-        name.setEditable(false);
         JPanel namePanel=new JPanel();
         namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.Y_AXIS));
         namePanel.add(name_label);
@@ -52,7 +59,6 @@ public class DoiTac_AdminView extends JPanel {
         email_label.setFont(new Font("Arial", Font.BOLD, 15));
         email_label.setForeground(new Color(1, 119, 219));
         email=new JTextField(10);
-        email.setEditable(false);
         JPanel emailPanel=new JPanel();
         emailPanel.setLayout(new BoxLayout(emailPanel, BoxLayout.Y_AXIS));
         emailPanel.add(email_label);
@@ -61,7 +67,6 @@ public class DoiTac_AdminView extends JPanel {
         phone_label.setFont(new Font("Arial", Font.BOLD, 15));
         phone_label.setForeground(new Color(1, 119, 219));
         phone=new JTextField(10);
-        phone.setEditable(false);
         JPanel phonePanel=new JPanel();
         phonePanel.setLayout(new BoxLayout(phonePanel, BoxLayout.Y_AXIS));
         phonePanel.add(phone_label);
@@ -70,7 +75,6 @@ public class DoiTac_AdminView extends JPanel {
         address_label.setFont(new Font("Arial", Font.BOLD, 15));
         address_label.setForeground(new Color(1, 119, 219));
         address=new JTextField(10);
-        address.setEditable(false);
         JPanel addressPanel=new JPanel();
         addressPanel.setLayout(new BoxLayout(addressPanel, BoxLayout.Y_AXIS));
         addressPanel.add(address_label);
@@ -79,18 +83,56 @@ public class DoiTac_AdminView extends JPanel {
         amountCN_label.setFont(new Font("Arial", Font.BOLD, 15));
         amountCN_label.setForeground(new Color(1, 119, 219));
         amountCN=new JTextField(10);
-        amountCN.setEditable(false);
         JPanel amountCNPanel=new JPanel();
         amountCNPanel.setLayout(new BoxLayout(amountCNPanel, BoxLayout.Y_AXIS));
         amountCNPanel.add(amountCN_label);
         amountCNPanel.add(amountCN);
+        JPanel slDonPanel=new JPanel();
+        slDonPanel.setLayout(new BoxLayout(slDonPanel, BoxLayout.Y_AXIS));
+        JLabel slDon_label=new JLabel("Số lượng đơn:");
+        slDon_label.setFont(new Font("Arial", Font.BOLD, 15));
+        slDon_label.setForeground(new Color(1, 119, 219));
+        sldon=new JTextField(10);
+        slDonPanel.add(slDon_label);
+        slDonPanel.add(sldon);
+        JPanel madtPanel=new JPanel();
+        madtPanel.setLayout(new BoxLayout(madtPanel, BoxLayout.Y_AXIS));
+        JLabel madt_label=new JLabel("Mã đối tác:");
+        madt_label.setFont(new Font("Arial", Font.BOLD, 15));
+        madt_label.setForeground(new Color(1, 119, 219));
+        madt=new JTextField(10);
+        madtPanel.add(madt_label);
+        madtPanel.add(madt);
+        JPanel mstPanel=new JPanel();
+        mstPanel.setLayout(new BoxLayout(mstPanel, BoxLayout.Y_AXIS));
+        JLabel mst_label=new JLabel("Mã số thuế:");
+        mst_label.setFont(new Font("Arial", Font.BOLD, 15));
+        mst_label.setForeground(new Color(1, 119, 219));
+        mst=new JTextField(10);
+        mstPanel.add(mst_label);
+        mstPanel.add(mst);
+        JPanel doanhthuPanel=new JPanel();
+        doanhthuPanel.setLayout(new BoxLayout(doanhthuPanel, BoxLayout.Y_AXIS));
+        JLabel doanhthu_label=new JLabel("Doanh thu:");
+        doanhthu_label.setFont(new Font("Arial", Font.BOLD, 15));
+        doanhthu_label.setForeground(new Color(1, 119, 219));
+        doanhthu=new JTextField(10);
+        doanhthuPanel.add(doanhthu_label);
+        doanhthuPanel.add(doanhthu);
+
         JPanel infoPanel=new JPanel();
-        infoPanel.setLayout(new GridLayout(2, 3, 60, 20));
+        infoPanel.setLayout(new GridLayout(3, 3, 60, 20));
+        infoPanel.add(madtPanel);
         infoPanel.add(namePanel);
+        infoPanel.add(amountCNPanel);
+        infoPanel.add(slDonPanel);
+        infoPanel.add(mstPanel);
         infoPanel.add(emailPanel);
         infoPanel.add(phonePanel);
         infoPanel.add(addressPanel);
-        infoPanel.add(amountCNPanel);
+        infoPanel.add(doanhthuPanel);
+
+
 
         btnBack=new JButton("Quay lại");
         btnBack.setForeground(Color.WHITE);
@@ -132,23 +174,8 @@ public class DoiTac_AdminView extends JPanel {
         model.setColumnIdentifiers(column);
         table.setModel(model);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        String data[][]={{"DT00001","Công ty TNHH ABC", "2","5","TX00001","cc@gmail.com","0123456789","Hà Nội","10000000"},
-                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
-                {"DT00003","Công ty TNHH DEF", "3","2","TX00003","hsie@gamil.com","251251251","TP.HCM","4214124142"},
-                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
-                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
-                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
-                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
-                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
-                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
-                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
-                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
-                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
-                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"},
-                {"DT00002","Công ty TNHH XYZ", "1","3","TX00002","heeh@gmail.com","0123456789","Hà Nội","10000000"}};
-        for(int i=0;i<data.length;i++){
-            model.addRow(data[i]);
-        }
+        CallStoredProcedure call=new CallStoredProcedure();
+        call.ESP_XemDanhSachDoiTacAdmin(model);
 
         // add table to scrollpane
         JScrollPane scroll = new JScrollPane(table);
@@ -196,9 +223,21 @@ public class DoiTac_AdminView extends JPanel {
         add(bottom, BorderLayout.PAGE_END);
         add(topPanel, BorderLayout.PAGE_START);
 
-
-
-
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int i = table.getSelectedRow();
+                madt.setText(model.getValueAt(i, 0).toString());
+                name.setText(model.getValueAt(i, 1).toString());
+                amountCN.setText(model.getValueAt(i, 2).toString());
+                sldon.setText(model.getValueAt(i, 3).toString());
+                mst.setText(model.getValueAt(i, 4).toString());
+                email.setText(model.getValueAt(i, 5).toString());
+                phone.setText(model.getValueAt(i, 6).toString());
+                address.setText(model.getValueAt(i, 7).toString());
+                doanhthu.setText(model.getValueAt(i, 8).toString());
+            }
+        });
 
 
     }

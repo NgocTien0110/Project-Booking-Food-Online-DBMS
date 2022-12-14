@@ -1,21 +1,30 @@
 package View;
+import Model.ChiNhanhModel;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class ChiNhanh_UserView extends JPanel {
     private JComboBox status;
     private JTextField searchField;
     private JTextField name;
     private JTextField timeClose;
-    private JTextField phone;
+    private JTextField madt;
     private JTextField address;
     private JTextField timeOpen;
     private JButton btnBack;
     private JButton btnViewListFood;
     private JButton btnSearch;
     private JTable table;
-    public ChiNhanh_UserView()
+    public ChiNhanh_UserView(String maDT)
     {
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(1200, 600));
@@ -57,12 +66,12 @@ public class ChiNhanh_UserView extends JPanel {
         JLabel phone_label=new JLabel("Số điện thoại:");
         phone_label.setFont(new Font("Arial", Font.BOLD, 15));
         phone_label.setForeground(new Color(1, 119, 219));
-        phone=new JTextField(10);
-        phone.setEditable(false);
+        madt=new JTextField(10);
+        madt.setEditable(false);
         JPanel phonePanel=new JPanel();
         phonePanel.setLayout(new BoxLayout(phonePanel, BoxLayout.Y_AXIS));
         phonePanel.add(phone_label);
-        phonePanel.add(phone);
+        phonePanel.add(madt);
         JLabel address_label=new JLabel("Địa chỉ:");
         address_label.setFont(new Font("Arial", Font.BOLD, 15));
         address_label.setForeground(new Color(1, 119, 219));
@@ -85,6 +94,7 @@ public class ChiNhanh_UserView extends JPanel {
         status_label.setFont(new Font("Arial", Font.BOLD, 15));
         status_label.setForeground(new Color(1, 119, 219));
         status=new JComboBox();
+        status.addItem("Tất cả");
         status.addItem("Đang hoạt động");
         status.addItem("Đóng cửa");
         JPanel statusPanel=new JPanel();
@@ -136,21 +146,16 @@ public class ChiNhanh_UserView extends JPanel {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         // insert data to table
         DefaultTableModel model = new DefaultTableModel();
-        Object[] column = {"Tên chi nhánh", "Số điện thoại", "Địa chỉ", "Thời gian mở cửa","Thời gian đóng cửa", "Trạng thái"};
+        Object[] column = {"Tên chi nhánh", "Mã đối tác", "Địa chỉ", "Thời gian mở cửa","Thời gian đóng cửa", "Trạng thái"};
         model.setColumnIdentifiers(column);
         table.setModel(model);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        Object [][] row={{"Chi nhánh 1","0908746423","234, Nguyễn văn Cừ","8:00","22:00","Đang hoạt động"},
-                {"Chi nhánh 2","0908746423","234, Nguyễn văn Cừ","8:00","22:00","Đang hoạt động"},
-                {"Chi nhánh 3","0908746423","234, Nguyễn văn Cừ","8:00","22:00","Đang hoạt động"},
-                {"Chi nhánh 4","0908746423","234, Nguyễn văn Cừ","8:00","22:00","Đang hoạt động"},
-                {"Chi nhánh 5","0908746423","234, Nguyễn văn Cừ","8:00","22:00","Đang hoạt động"},
-                {"Chi nhánh 6","0908746423","234, Nguyễn văn Cừ","8:00","22:00","Đang hoạt động"},
-                {"Chi nhánh 7","0908746423","234, Nguyễn văn việt","7:00","22:00","Đóng cửa"}};
-        for(int i=0; i<row.length; i++){
-            model.addRow(row[i]);
+        ArrayList<ChiNhanhModel> chiNhanhModel=DAO.ChiNhanhDAO.getInstance().selectAll();
+        for(ChiNhanhModel cn:chiNhanhModel){
+            if(cn.getMaDoiTac().equalsIgnoreCase(maDT)) {
+                model.addRow(new Object[]{cn.getTenChiNhanh(), cn.getMaDoiTac(), cn.getDCChiNhanh(), cn.getThoiGianMoCua(), cn.getThoiGianDongCua(), cn.getTinhTrangHoatDong()});
+            }
         }
-
         // add table to scrollpane
         JScrollPane scroll = new JScrollPane(table);
         scroll.setHorizontalScrollBarPolicy(
@@ -167,15 +172,42 @@ public class ChiNhanh_UserView extends JPanel {
         centerPanel.add(buttonPanel);
         centerPanel.add(tablePanel);
         add(centerPanel, BorderLayout.CENTER);
-
-
-
-
-
-
-
-
         add(topPanel, BorderLayout.PAGE_START);
+
+        // xử lý sự kiện
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int i = table.getSelectedRow();
+                name.setText(model.getValueAt(i, 0).toString());
+                madt.setText(model.getValueAt(i, 1).toString());
+                address.setText(model.getValueAt(i, 2).toString());
+                timeOpen.setText(model.getValueAt(i, 3).toString());
+                timeClose.setText(model.getValueAt(i, 4).toString());
+            }
+        });
+        // Jcombobox
+        status.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
+                table.setRowSorter(sorter);
+                if(status.getSelectedItem().toString().equalsIgnoreCase("Đang hoạt động")){
+
+                    sorter.setRowFilter(RowFilter.regexFilter("Đang hoạt động"));
+
+
+                }
+                else if(status.getSelectedItem().toString().equalsIgnoreCase("Đóng cửa")){
+                    sorter.setRowFilter(RowFilter.regexFilter("Đóng cửa"));
+                }
+                else{
+                    sorter.setRowFilter(null);
+                }
+
+            }
+        });
+
 
 
 
@@ -183,11 +215,11 @@ public class ChiNhanh_UserView extends JPanel {
 
 
     }
-    public void createAndShowGUI()
+    public void createAndShowGUI(String maDT)
     {
         JFrame frame = new JFrame("Danh sách chi nhánh");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel newContentPane = new ChiNhanh_UserView();
+        JPanel newContentPane = new ChiNhanh_UserView(maDT);
         newContentPane.setOpaque(true);
         frame.setContentPane(newContentPane);
         frame.pack();
@@ -195,15 +227,16 @@ public class ChiNhanh_UserView extends JPanel {
         frame.setLocationRelativeTo(null);
 
     }
-    public static void main(String[] args)
-    {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new ChiNhanh_UserView().createAndShowGUI();
-            }
-        });
-    }
+//    public static void main(String[] args)
+//    {
+//        SwingUtilities.invokeLater(new Runnable() {
+//            public void run() {
+//                new ChiNhanh_UserView().createAndShowGUI();
+//            }
+//        });
+//    }
 
 
 
 }
+// chi nhanh user

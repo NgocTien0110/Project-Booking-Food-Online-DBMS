@@ -1,10 +1,26 @@
 package View;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import DAO.DoiTacDAO;
+import Model.DoiTacModel;
+import StoredProcedure.CallStoredProcedure;
+import database.JDBCUtil;
+
+import java.sql.*;
+// mouse event listener table
+
 
 public class DoiTac_UserView extends JPanel {
     private JTextField searchField;
+    private JTextField madt;
     private JTextField name;
     private JTextField email;
     private JTextField phone;
@@ -35,6 +51,15 @@ public class DoiTac_UserView extends JPanel {
         topPanel.add(Box.createRigidArea(new Dimension(250, 50)));
         topPanel.add(searchPanel);
         topPanel.add(Box.createRigidArea(new Dimension(0, 50)));
+        JLabel madt_label=new JLabel("Mã đối tác:");
+        madt_label.setFont(new Font("Arial", Font.BOLD, 15));
+        madt_label.setForeground(new Color(1, 119, 219));
+        madt=new JTextField(10);
+        madt.setEditable(false);
+        JPanel madtPanel=new JPanel();
+        madtPanel.setLayout(new BoxLayout(madtPanel, BoxLayout.Y_AXIS));
+        madtPanel.add(madt_label);
+        madtPanel.add(madt);
         JLabel name_label=new JLabel("Tên đối tác:");
         name_label.setFont(new Font("Arial", Font.BOLD, 15));
         name_label.setForeground(new Color(1, 119, 219));
@@ -82,6 +107,7 @@ public class DoiTac_UserView extends JPanel {
         amountCNPanel.add(amountCN);
         JPanel infoPanel=new JPanel();
         infoPanel.setLayout(new GridLayout(2, 3, 60, 20));
+        infoPanel.add(madtPanel);
         infoPanel.add(namePanel);
         infoPanel.add(emailPanel);
         infoPanel.add(phonePanel);
@@ -124,24 +150,13 @@ public class DoiTac_UserView extends JPanel {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         // insert data to table
         DefaultTableModel model = new DefaultTableModel();
-        Object[] column = {"Tên đối tác", "SL chi nhánh", "Email", "Số điện thoại","Địa chỉ"};
+        Object[] column = {"Mã đối tác","Tên đối tác", "SL chi nhánh", "Email", "Số điện thoại","Địa chỉ"};
         model.setColumnIdentifiers(column);
         table.setModel(model);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        // insert data to table
-//        Object [] row = new Object[5];
-//        for(int i=0; i<listPartner.size(); i++){
-//            row[0]=listPartner.get(i).getName();
-//            row[1]=listPartner.get(i).getAmountCN();
-//            row[2]=listPartner.get(i).getEmail();
-//            row[3]=listPartner.get(i).getPhone();
-//            row[4]=listPartner.get(i).getAddress();
-//            model.addRow(row);
-//        }
-        Object [][] row={{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"Mixi food", "2", "mixi@gmail.com", "0123456789", "Hà Nội"},{"M-TP", "5", "mtp@gmail.com","9588242", "Sài gòn"},{"BTS", "3", "bts@gmail.com", "0123456789", "Hàn Quốc"}};
-        for(int i=0; i<row.length; i++){
-            model.addRow(row[i]);
-        }
+        ArrayList<DoiTacModel> list = DoiTacDAO.getInstance().selectAll();
+        CallStoredProcedure call = new CallStoredProcedure();
+        call.ESP_XemDanhSachDoiTacUser(model);
 
         // add table to scrollpane
         JScrollPane scroll = new JScrollPane(table);
@@ -159,15 +174,47 @@ public class DoiTac_UserView extends JPanel {
         centerPanel.add(buttonPanel);
         centerPanel.add(tablePanel);
         add(centerPanel, BorderLayout.CENTER);
-
-
-
-
-
-
-
-
         add(topPanel, BorderLayout.PAGE_START);
+        // xử lý sự kiện
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int i = table.getSelectedRow();
+                madt.setText(model.getValueAt(i, 0).toString());
+                name.setText(model.getValueAt(i, 1).toString());
+                amountCN.setText(model.getValueAt(i, 2).toString());
+                email.setText(model.getValueAt(i, 3).toString());
+                phone.setText(model.getValueAt(i, 4).toString());
+                address.setText(model.getValueAt(i, 5).toString());
+            }
+        });
+        final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
+        table.setRowSorter(sorter);
+        btnSearch.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String text = searchField.getText();
+                if (text.length() == 0) {
+                    sorter.setRowFilter(null);
+                } else {
+                    sorter.setRowFilter(RowFilter.regexFilter(text));
+                }
+            }
+        });
+        btnViewListCN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int i = table.getSelectedRow();
+                if(i==-1) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn đối tác cần xem chi nhánh");
+                } else {
+                    String maDT = model.getValueAt(i, 0).toString();
+                    // đóng giao diện hiện tại
+                    Window win = SwingUtilities.getWindowAncestor(DoiTac_UserView.this);
+                    win.dispose();
+                    new ChiNhanh_UserView(maDT).createAndShowGUI(maDT);
+                }
+            }
+        });
 
 
 
@@ -175,6 +222,10 @@ public class DoiTac_UserView extends JPanel {
 
 
     }
+
+
+
+
     public void createAndShowGUI()
     {
         JFrame frame = new JFrame("DT_User");
@@ -186,16 +237,16 @@ public class DoiTac_UserView extends JPanel {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
 
+
     }
+    // add even
+
     public static void main(String[] args)
     {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new DoiTac_UserView().createAndShowGUI();
-            }
-        });
+        new DoiTac_UserView().createAndShowGUI();
     }
 
 
 
 }
+// doi tac user
