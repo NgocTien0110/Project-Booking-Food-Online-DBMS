@@ -91,6 +91,10 @@ public class MenuDoiTac extends JFrame implements ActionListener {
             new UpdateInfoAccView(MaTaiKhoanDD);
             this.dispose();
         }
+        else if (strAction.equals("Xem danh sách đối tác")) {
+            new DoiTac_UserView(MaTaiKhoanDD).createAndShowGUI(MaTaiKhoanDD);
+            this.dispose();
+        }
         else if (strAction.equals("Đăng xuất")){
             new MenuDangNhapDangKy();
             this.dispose();

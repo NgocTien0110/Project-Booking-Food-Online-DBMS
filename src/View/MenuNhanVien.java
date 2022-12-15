@@ -90,6 +90,14 @@ public class MenuNhanVien extends JFrame implements ActionListener {
             new UpdateInfoAccView(MaTaiKhoanNV);
             this.dispose();
         }
+        else if (strAction.equals("Xem danh sách đối tác")) {
+            new DoiTac_UserView(MaTaiKhoanNV).createAndShowGUI(MaTaiKhoanNV);
+            this.dispose();
+        }
+        else if (strAction.equals("Xem danh sách hợp đồng")) {
+            new DanhSachHopDongView(MaTaiKhoanNV);
+            this.dispose();
+        }
         else if (strAction.equals("Đăng xuất")){
             new MenuDangNhapDangKy();
             this.dispose();

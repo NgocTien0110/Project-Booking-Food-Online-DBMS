@@ -5,8 +5,10 @@ import Model.TaiKhoanModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class UpdateInfoAccView extends JFrame {
+public class UpdateInfoAccView extends JFrame implements ActionListener {
     private JLabel labelHeader;
     private JTextField inputUsername;
     private JTextField inputPassword;
@@ -127,9 +129,10 @@ public class UpdateInfoAccView extends JFrame {
         JPanel jPanelBodyRight = new JPanel();
         jPanelBodyRight.setPreferredSize(new Dimension(250,360));
 
-        JButton jButtonBack = new JButton("Trở về");
+        JButton jButtonBack = new JButton("Quay lại");
         jButtonBack.setPreferredSize(new Dimension(215,60));
         jButtonBack.setBackground(new Color(217, 217, 217));
+        jButtonBack.addActionListener(this);
 
         JButton jButtonUpdateInfo = new JButton("Cập nhật");
         jButtonUpdateInfo.setPreferredSize(new Dimension(215,60));
@@ -153,4 +156,25 @@ public class UpdateInfoAccView extends JFrame {
         this.setVisible(true);
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String acStr = e.getActionCommand();
+        if (acStr.equals("Quay lại")) {
+            if ((Character.compare(MaTaiKhoan.charAt(0),'K') == 0) && (Character.compare(MaTaiKhoan.charAt(1),'H') == 0)) {
+                new MenuKhachHang(MaTaiKhoan);
+                this.dispose();
+            }
+            else if ((Character.compare(MaTaiKhoan.charAt(0),'T') == 0) && (Character.compare(MaTaiKhoan.charAt(1),'X') == 0)) {
+                new MenuTaiXe(MaTaiKhoan);
+                this.dispose();
+            }
+            else if ((Character.compare(MaTaiKhoan.charAt(0),'N') == 0) && (Character.compare(MaTaiKhoan.charAt(1),'V') == 0)) {
+                new MenuNhanVien(MaTaiKhoan);
+                this.dispose();
+            } else if ((Character.compare(MaTaiKhoan.charAt(0),'D') == 0) && (Character.compare(MaTaiKhoan.charAt(1),'D') == 0)) {
+                new MenuDoiTac(MaTaiKhoan);
+                this.dispose();
+            }
+        }
+    }
 }

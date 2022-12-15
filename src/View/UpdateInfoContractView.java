@@ -1,9 +1,23 @@
 package View;
 
+import DAO.HopDongDAO;
+import DAO.TaiKhoanDAO;
+import Model.HopDongModel;
+import Model.TaiKhoanModel;
+import database.JDBCUtil;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Date;
+import java.util.Vector;
 
-public class UpdateInfoContractView extends JFrame {
+public class UpdateInfoContractView extends JFrame implements ActionListener {
     private JLabel labelHeader;
     private JTextField inputRepreName;
     private JTextField inputParterName;
@@ -13,8 +27,12 @@ public class UpdateInfoContractView extends JFrame {
     private JTextField inputTimeRemain;
     private JTextField inputStaffName;
     private JTextField inputNoti;
+    private String MaTaiKhoan;
+    private String MaHopDong;
 
-    public UpdateInfoContractView() {
+    public UpdateInfoContractView(String maTaiKhoan, String maHopDong) {
+        MaTaiKhoan = maTaiKhoan;
+        MaHopDong = maHopDong;
         JFrame.setDefaultLookAndFeelDecorated(true);
         this.setTitle("Cập nhật thông tin hợp đồng");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,128 +49,170 @@ public class UpdateInfoContractView extends JFrame {
 
         jPanelHeader.add(labelHeader);
 
-        JPanel jPanelBody = new JPanel(new GridLayout(4,2,40,20));
+        try {
+            //Bước 1: Tạo kết nối đến CSDL
+            Connection con = JDBCUtil.getConnection();
 
-        JLabel labelRepre = new JLabel("Tên người đại diện");
-        labelRepre.setFont(fontBody);
-        labelRepre.setForeground(new Color(39, 167, 239));
+            //Bước 2: Tạo ra đối tượng statement
+            String sql = "SELECT * FROM HopDong hd, TaiKhoan tk, DoiTac dt where hd.MaHopDong=? and hd.MaTaiKhoanDD=tk.MaTaiKhoan and hd.MaDoiTac=dt.MaDoiTac";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, MaHopDong);
+            //Bước 3: Thực thi câu lệnh SQL
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                String tenDaiDien = rs.getString("TenTaiKhoan");
+                String tenDoiTac = rs.getString("TenDoiTac");
+                Date ngayKy = rs.getDate("NgayKi");
+                String maNVPhuTrach = rs.getString("MaTaiKhoanNV");
+                float phanTramHH = rs.getFloat("PhamTramHoaHong");
+                int thoiGianHL = rs.getInt("ThoiGianHieuLuc");
+                double phiHH = rs.getDouble("PhiHoaHong");
 
-        JPanel panelRepreName = new JPanel(new GridLayout(2,1,5,0));
+                if (thoiGianHL < 0) {
+                    thoiGianHL = 0;
+                }
+                JPanel jPanelBody = new JPanel(new GridLayout(4, 2, 40, 20));
 
-        inputRepreName = new JTextField(50);
-        panelRepreName.add(labelRepre);
-        panelRepreName.add(inputRepreName);
+                JLabel labelRepre = new JLabel("Tên người đại diện");
+                labelRepre.setFont(fontBody);
+                labelRepre.setForeground(new Color(39, 167, 239));
 
-        JLabel labelParterName = new JLabel("Tên đối tác");
-        labelParterName.setFont(fontBody);
-        labelParterName.setForeground(new Color(39, 167, 239));
+                JPanel panelRepreName = new JPanel(new GridLayout(2, 1, 5, 0));
 
-        JPanel panelParterName= new JPanel(new GridLayout(2,1,5,0));
-        inputParterName = new JTextField(50);
-        panelParterName.add(labelParterName);
-        panelParterName.add(inputParterName);
+                inputRepreName = new JTextField(50);
+                inputRepreName.setText(tenDaiDien);
+                panelRepreName.add(labelRepre);
+                panelRepreName.add(inputRepreName);
 
-        JLabel labelCommisPercent = new JLabel("Phần trăm hoa hồng");
-        labelCommisPercent.setFont(fontBody);
-        labelCommisPercent.setForeground(new Color(39, 167, 239));
+                JLabel labelParterName = new JLabel("Tên đối tác");
+                labelParterName.setFont(fontBody);
+                labelParterName.setForeground(new Color(39, 167, 239));
 
-        JPanel panelCommisPercent = new JPanel(new GridLayout(2,1,5,0));
-        inputCommisPercent = new JTextField(50);
-        panelCommisPercent.add(labelCommisPercent);
-        panelCommisPercent.add(inputCommisPercent);
+                JPanel panelParterName = new JPanel(new GridLayout(2, 1, 5, 0));
+                inputParterName = new JTextField(50);
+                inputParterName.setText(tenDoiTac);
+                panelParterName.add(labelParterName);
+                panelParterName.add(inputParterName);
 
-        JLabel labelCommisFee = new JLabel("Phí hoa hồng tháng");
-        labelCommisFee.setFont(fontBody);
-        labelCommisFee.setForeground(new Color(39, 167, 239));
+                JLabel labelCommisPercent = new JLabel("Phần trăm hoa hồng");
+                labelCommisPercent.setFont(fontBody);
+                labelCommisPercent.setForeground(new Color(39, 167, 239));
 
-        JPanel panelCommisFee= new JPanel(new GridLayout(2,1,5,0));
-        inputCommisFeeMonthly = new JTextField(50);
-        panelCommisFee.add(labelCommisFee);
-        panelCommisFee.add(inputCommisFeeMonthly);
+                JPanel panelCommisPercent = new JPanel(new GridLayout(2, 1, 5, 0));
+                inputCommisPercent = new JTextField(50);
+                inputCommisPercent.setText(String.valueOf(phanTramHH));
+                panelCommisPercent.add(labelCommisPercent);
+                panelCommisPercent.add(inputCommisPercent);
 
-        JLabel labelSignDay = new JLabel("Ngày ký");
-        labelSignDay.setFont(fontBody);
-        labelSignDay.setForeground(new Color(39, 167, 239));
+                JLabel labelCommisFee = new JLabel("Phí hoa hồng tháng");
+                labelCommisFee.setFont(fontBody);
+                labelCommisFee.setForeground(new Color(39, 167, 239));
 
-        JPanel panelSignDay = new JPanel(new GridLayout(2,1,5,0));
-        inputSignDay = new JTextField(50);
-        panelSignDay.add(labelSignDay);
-        panelSignDay.add(inputSignDay);
+                JPanel panelCommisFee = new JPanel(new GridLayout(2, 1, 5, 0));
+                inputCommisFeeMonthly = new JTextField(50);
+                inputCommisFeeMonthly.setText(String.valueOf(phiHH));
+                panelCommisFee.add(labelCommisFee);
+                panelCommisFee.add(inputCommisFeeMonthly);
 
-        JLabel labelRemain = new JLabel("Thời gian hiệu lực");
-        labelRemain.setFont(fontBody);
-        labelRemain.setForeground(new Color(39, 167, 239));
+                JLabel labelSignDay = new JLabel("Ngày ký");
+                labelSignDay.setFont(fontBody);
+                labelSignDay.setForeground(new Color(39, 167, 239));
 
-        JPanel panelTimeRemain = new JPanel(new GridLayout(2,1,5,0));
-        inputTimeRemain= new JTextField(50);
-        panelTimeRemain.add(labelRemain);
-        panelTimeRemain.add(inputTimeRemain);
+                JPanel panelSignDay = new JPanel(new GridLayout(2, 1, 5, 0));
+                inputSignDay = new JTextField(50);
+                inputSignDay.setText(String.valueOf(ngayKy));
+                panelSignDay.add(labelSignDay);
+                panelSignDay.add(inputSignDay);
 
-        JLabel labelStaffName = new JLabel("Tên nhân viên phụ trách");
-        labelStaffName.setFont(fontBody);
-        labelStaffName.setForeground(new Color(39, 167, 239));
+                JLabel labelRemain = new JLabel("Thời gian hiệu lực(tháng)");
+                labelRemain.setFont(fontBody);
+                labelRemain.setForeground(new Color(39, 167, 239));
 
-        JPanel panelStaffName = new JPanel(new GridLayout(2,1,5,0));
-        inputStaffName= new JTextField(50);
-        panelStaffName.add(labelStaffName);
-        panelStaffName.add(inputStaffName);
+                JPanel panelTimeRemain = new JPanel(new GridLayout(2, 1, 5, 0));
+                inputTimeRemain = new JTextField(50);
+                inputTimeRemain.setText(String.valueOf(thoiGianHL));
+                panelTimeRemain.add(labelRemain);
+                panelTimeRemain.add(inputTimeRemain);
 
-        JLabel labelNoti = new JLabel("Thông báo");
-        labelNoti.setFont(fontBody);
-        labelNoti.setForeground(new Color(39, 167, 239));
+                JLabel labelStaffName = new JLabel("Mã nhân viên phụ trách");
+                labelStaffName.setFont(fontBody);
+                labelStaffName.setForeground(new Color(39, 167, 239));
 
-        JPanel panelNoti = new JPanel(new GridLayout(2,1,5,0));
-        inputNoti = new JTextField(50);
-        panelNoti.add(labelNoti);
-        panelNoti.add(inputNoti);
+                JPanel panelStaffName = new JPanel(new GridLayout(2, 1, 5, 0));
+                inputStaffName = new JTextField(50);
+                inputStaffName.setText(maNVPhuTrach);
+                panelStaffName.add(labelStaffName);
+                panelStaffName.add(inputStaffName);
 
-        jPanelBody.add(panelRepreName);
-        jPanelBody.add(panelSignDay);
-        jPanelBody.add(panelParterName);
-        jPanelBody.add(panelTimeRemain);
-        jPanelBody.add(panelCommisPercent);
-        jPanelBody.add(panelStaffName);
-        jPanelBody.add(panelCommisFee);
-        jPanelBody.add(panelNoti);
-        jPanelBody.setPreferredSize(new Dimension(500,360));
+                JLabel labelNoti = new JLabel("Thông báo");
+                labelNoti.setFont(fontBody);
+                labelNoti.setForeground(new Color(39, 167, 239));
 
-        JPanel jPanelBodyLeft = new JPanel();
-        jPanelBodyLeft.setPreferredSize(new Dimension(250,360));
-        JPanel jPanelBodyRight = new JPanel();
-        jPanelBodyRight.setPreferredSize(new Dimension(250,360));
+                JPanel panelNoti = new JPanel(new GridLayout(2, 1, 5, 0));
+                inputNoti = new JTextField(50);
+                panelNoti.add(labelNoti);
+                panelNoti.add(inputNoti);
 
-        JButton jButtonBack = new JButton("Trở về");
-        jButtonBack.setPreferredSize(new Dimension(130,60));
-        jButtonBack.setBackground(new Color(217, 217, 217));
+                jPanelBody.add(panelRepreName);
+                jPanelBody.add(panelSignDay);
+                jPanelBody.add(panelParterName);
+                jPanelBody.add(panelTimeRemain);
+                jPanelBody.add(panelCommisPercent);
+                jPanelBody.add(panelStaffName);
+                jPanelBody.add(panelCommisFee);
+                jPanelBody.add(panelNoti);
+                jPanelBody.setPreferredSize(new Dimension(500, 360));
 
-        JButton jButtonNoti = new JButton("Thông báo đối tác");
-        jButtonNoti.setPreferredSize(new Dimension(160,60));
-        jButtonNoti.setBackground(new Color(217, 217, 217));
+                JPanel jPanelBodyLeft = new JPanel();
+                jPanelBodyLeft.setPreferredSize(new Dimension(250, 360));
+                JPanel jPanelBodyRight = new JPanel();
+                jPanelBodyRight.setPreferredSize(new Dimension(250, 360));
 
-        JButton jButtonUpdateInfo = new JButton("Cập nhật");
-        jButtonUpdateInfo.setPreferredSize(new Dimension(130,60));
-        jButtonUpdateInfo.setBackground(new Color(217, 217, 217));
+                JButton jButtonBack = new JButton("Quay lại");
+                jButtonBack.setPreferredSize(new Dimension(130, 60));
+                jButtonBack.setBackground(new Color(217, 217, 217));
+                jButtonBack.addActionListener(this);
 
-        JPanel jPanelBot = new JPanel(new FlowLayout(FlowLayout.CENTER, 30,60));
-        jPanelBot.add(jButtonBack);
-        jPanelBot.add(jButtonNoti);
-        jPanelBot.add(jButtonUpdateInfo);
+                JButton jButtonNoti = new JButton("Thông báo đối tác");
+                jButtonNoti.setPreferredSize(new Dimension(160, 60));
+                jButtonNoti.setBackground(new Color(217, 217, 217));
 
-        jPanelHeader.setPreferredSize(new Dimension(1000,60));
-        JPanel jPanelHeader1 = new JPanel();
-        jPanelHeader1.add(jPanelHeader);
+                JButton jButtonUpdateInfo = new JButton("Cập nhật");
+                jButtonUpdateInfo.setPreferredSize(new Dimension(130, 60));
+                jButtonUpdateInfo.setBackground(new Color(217, 217, 217));
 
-        jPanelBot.setPreferredSize(new Dimension(1000,180));
-        this.setLayout(new BorderLayout());
-        this.add(jPanelHeader1, BorderLayout.PAGE_START);
-        this.add(jPanelBodyLeft, BorderLayout.LINE_START);
-        this.add(jPanelBodyRight, BorderLayout.LINE_END);
-        this.add(jPanelBody, BorderLayout.CENTER);
-        this.add(jPanelBot, BorderLayout.PAGE_END);
-        this.setVisible(true);
+                JPanel jPanelBot = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 60));
+                jPanelBot.add(jButtonBack);
+                jPanelBot.add(jButtonNoti);
+                jPanelBot.add(jButtonUpdateInfo);
+
+                jPanelHeader.setPreferredSize(new Dimension(1000, 60));
+                JPanel jPanelHeader1 = new JPanel();
+                jPanelHeader1.add(jPanelHeader);
+
+                jPanelBot.setPreferredSize(new Dimension(1000, 180));
+                this.setLayout(new BorderLayout());
+                this.add(jPanelHeader1, BorderLayout.PAGE_START);
+                this.add(jPanelBodyLeft, BorderLayout.LINE_START);
+                this.add(jPanelBodyRight, BorderLayout.LINE_END);
+                this.add(jPanelBody, BorderLayout.CENTER);
+                this.add(jPanelBot, BorderLayout.PAGE_END);
+                this.setVisible(true);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
-    public static void main(String[] args) {
-        new UpdateInfoContractView();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String acStr = e.getActionCommand();
+        if (acStr.equals("Quay lại")) {
+            new DanhSachHopDongView(MaTaiKhoan);
+            this.dispose();
+        }
     }
 }

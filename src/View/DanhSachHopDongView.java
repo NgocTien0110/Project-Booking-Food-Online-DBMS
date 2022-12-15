@@ -15,13 +15,15 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.*;
 import java.util.List;
 
-public class DanhSachHopDongView extends JFrame {
+public class DanhSachHopDongView extends JFrame implements ActionListener {
     private JLabel labelHeader;
     private JTextField inputSearch;
     private JButton buttonSearch;
@@ -34,8 +36,10 @@ public class DanhSachHopDongView extends JFrame {
     private JTable tableContractList;
     private JButton buttonBack;
     private JButton buttonViewDetails;
+    private String MaTaiKhoan;
 
-    public DanhSachHopDongView() {
+    public DanhSachHopDongView(String maTaiKhoan) {
+        MaTaiKhoan = maTaiKhoan;
         JFrame.setDefaultLookAndFeelDecorated(true);
         this.setTitle("Danh sách hợp đồng");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -164,7 +168,9 @@ public class DanhSachHopDongView extends JFrame {
         JPanel jPanelBodyBottom = new JPanel(new GridLayout(1, 2, 150, 0));
         jPanelBodyBottom.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
         buttonViewDetails = new JButton("Xem chi tiết");
+        buttonViewDetails.addActionListener(this);
         buttonBack = new JButton("Quay lại");
+        buttonBack.addActionListener(this);
 
         jPanelBodyBottom.add(buttonBack);
         jPanelBodyBottom.add(buttonViewDetails);
@@ -226,7 +232,26 @@ public class DanhSachHopDongView extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        new DanhSachHopDongView();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String acStr = e.getActionCommand();
+        if (acStr.equals("Quay lại")) {
+            new MenuNhanVien(MaTaiKhoan);
+            this.dispose();
+        }
+        else if (acStr.equals("Xem chi tiết")) {
+            if(!tableContractList.getSelectionModel().isSelectionEmpty()) { //Đang lựa chọn
+                DefaultTableModel model = (DefaultTableModel) tableContractList.getModel();
+
+                int selectedRowIndex = tableContractList.getSelectedRow();
+                String MaHopDong = model.getValueAt(selectedRowIndex, 0).toString();
+                System.out.println(MaHopDong);
+                new UpdateInfoContractView(MaTaiKhoan, MaHopDong);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn hợp đồng để xem chi tiết",
+                        "Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
     }
 }

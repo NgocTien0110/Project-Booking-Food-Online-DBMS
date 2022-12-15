@@ -84,6 +84,10 @@ public class MenuTaiXe extends JFrame implements ActionListener {
             new UpdateInfoAccView(MaTaiKhoanTX);
             this.dispose();
         }
+        else if (strAction.equals("Xem danh sách đối tác")) {
+            new DoiTac_UserView(MaTaiKhoanTX).createAndShowGUI(MaTaiKhoanTX);
+            this.dispose();
+        }
         else if (strAction.equals("Đăng xuất")){
             new MenuDangNhapDangKy();
             this.dispose();

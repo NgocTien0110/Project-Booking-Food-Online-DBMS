@@ -66,10 +66,6 @@ public class MenuDangNhapDangKy extends JFrame implements ActionListener {
         this.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new MenuDangNhapDangKy();
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         String strAction = e.getActionCommand();

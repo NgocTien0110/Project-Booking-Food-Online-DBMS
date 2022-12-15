@@ -84,6 +84,10 @@ public class MenuKhachHang extends JFrame implements ActionListener {
             new UpdateInfoAccView(MaTaiKhoanKH);
             this.dispose();
         }
+        else if (strAction.equals("Xem danh sách đối tác")) {
+            new DoiTac_UserView(MaTaiKhoanKH).createAndShowGUI(MaTaiKhoanKH);
+            this.dispose();
+        }
         else if (strAction.equals("Đăng xuất")){
             new MenuDangNhapDangKy();
             this.dispose();

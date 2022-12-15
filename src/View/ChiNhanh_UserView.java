@@ -25,8 +25,10 @@ public class ChiNhanh_UserView extends JPanel {
     private JButton btnViewListFood;
     private JButton btnSearch;
     private JTable table;
-    public ChiNhanh_UserView(String maDT)
+    private String MaTaiKhoan;
+    public ChiNhanh_UserView(String maDT, String maTaiKhoan)
     {
+        MaTaiKhoan = maTaiKhoan;
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(1200, 600));
         JLabel title=new JLabel("Danh sách chi nhánh");
@@ -183,6 +185,14 @@ public class ChiNhanh_UserView extends JPanel {
                 timeClose.setText(model.getValueAt(i, 4).toString());
             }
         });
+        btnBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new DoiTac_UserView(MaTaiKhoan).createAndShowGUI(MaTaiKhoan);
+                Window win = SwingUtilities.getWindowAncestor(ChiNhanh_UserView.this);
+                win.dispose();
+            }
+        });
         // Jcombobox
         status.addActionListener(new ActionListener() {
             @Override
@@ -204,18 +214,12 @@ public class ChiNhanh_UserView extends JPanel {
             }
         });
 
-
-
-
-
-
-
     }
-    public void createAndShowGUI(String maDT)
+    public void createAndShowGUI(String maDT, String maTaiKhoan)
     {
         JFrame frame = new JFrame("Danh sách chi nhánh");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel newContentPane = new ChiNhanh_UserView(maDT);
+        JPanel newContentPane = new ChiNhanh_UserView(maDT, maTaiKhoan);
         newContentPane.setOpaque(true);
         frame.setContentPane(newContentPane);
         frame.pack();
