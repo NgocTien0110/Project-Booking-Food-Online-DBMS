@@ -1,7 +1,11 @@
 package View;
 
+import StoredProcedure.DANG_KY;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * View
@@ -16,6 +20,8 @@ public class SignUpView extends JFrame {
     private JTextField inputConfirmpassword;
     private JTextField inputAddress;
     private JTextField inputEmail;
+    private JTextField inputPhone;
+    private JTextField inputFullname;
     private JComboBox<String> inputAccountType;
 
     private String accountType[] = {"Khách hàng", "Tài xế", "Đối tác"};
@@ -54,7 +60,7 @@ public class SignUpView extends JFrame {
         jPanelHeader.add(labelHeader);
         jPanelHeader.add(jsubHeader);
 
-        JPanel jPanelBody = new JPanel(new GridLayout(4, 2, 40, 20));
+        JPanel jPanelBody = new JPanel(new GridLayout(5, 2, 40, 20));
         jPanelBody.setBorder(BorderFactory.createEmptyBorder(80, 200, 0, 200));
 
         JLabel labelUsername = new JLabel("Tên tài khoản");
@@ -94,6 +100,24 @@ public class SignUpView extends JFrame {
         panelConfirmPassword.add(labelConfirmPassword);
         panelConfirmPassword.add(inputConfirmpassword);
 
+//        JLabel labelFullname = new JLabel("Họ và tên");
+//        labelFullname.setFont(fontBody);
+//        labelFullname.setForeground(new Color(39, 167, 239));
+//
+//        JPanel panelFullname = new JPanel(new GridLayout(2, 1, 5, 0));
+//        inputFullname = new JTextField(50);
+//        panelFullname.add(labelFullname);
+//        panelFullname.add(inputFullname);
+//
+//        JLabel labelPhone = new JLabel("Số điện thoại");
+//        labelPhone.setFont(fontBody);
+//        labelPhone.setForeground(new Color(39, 167, 239));
+//
+//        JPanel panelPhone = new JPanel(new GridLayout(2, 1, 5, 0));
+//        inputPhone = new JTextField(50);
+//        panelPhone.add(labelPhone);
+//        panelPhone.add(inputPhone);
+
         JLabel labelAddress = new JLabel("Địa chỉ");
         labelAddress.setFont(fontBody);
         labelAddress.setForeground(new Color(39, 167, 239));
@@ -117,6 +141,8 @@ public class SignUpView extends JFrame {
         jPanelBody.add(panelEmail);
         jPanelBody.add(panelPassword);
         jPanelBody.add(panelConfirmPassword);
+//        jPanelBody.add(panelPhone);
+//        jPanelBody.add(panelFullname);
         jPanelBody.add(panelAddress);
         jPanelBody.add(panelAccountType);
 
@@ -124,12 +150,52 @@ public class SignUpView extends JFrame {
         jPanelFooter.setLayout(new GridLayout(1, 2, 20, 0));
 
         JButton buttonSignUp = new JButton("Đăng ký");
+        buttonSignUp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = inputUsername.getText();
+                String email = inputEmail.getText();
+                String password = inputPassword.getText();
+                String confirmPassword = inputConfirmpassword.getText();
+                String address = inputAddress.getText();
+                String accountType = inputAccountType.getSelectedItem().toString();
+
+                if (username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || address.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin");
+                } else if (!password.equals(confirmPassword)) {
+                    JOptionPane.showMessageDialog(null, "Mật khẩu không khớp");
+                } else {
+                    if(accountType.equals("Khách hàng")) {
+                        DANG_KY dangKy = new DANG_KY();
+                        int sta = dangKy.DANG_KY_KH(username, password, address, email);
+                        System.out.println("sta" + sta);
+                        if (sta == 1) {
+                            JOptionPane.showMessageDialog(null, "Đăng ký thành công");
+                            dispose();
+                            new LoginView();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Đăng ký thất bại");
+                        }
+                    }
+                    if (accountType.equals("Đối tác")) {
+                       System.out.println("Đối tác");
+                    }
+                }
+            }
+        });
         buttonSignUp.setFont(fontBody);
         buttonSignUp.setForeground(new Color(255, 255, 255));
         buttonSignUp.setBackground(new Color(1, 119, 216));
         buttonSignUp.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JButton buttonBack = new JButton("Quay lại");
+        buttonBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new MenuDangNhapDangKy();
+            }
+        });
         buttonBack.setFont(fontBody);
         buttonBack.setForeground(new Color(255, 255, 255));
         buttonBack.setBackground(new Color(1, 119, 216));
@@ -146,7 +212,7 @@ public class SignUpView extends JFrame {
         this.setVisible(true);
     }
 
-//    public static void main(String[] args) {
-//        new SignUpView();
-//    }
+    public static void main(String[] args) {
+        new SignUpView();
+    }
 }
