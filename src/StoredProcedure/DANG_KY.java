@@ -36,7 +36,7 @@ public class DANG_KY {
         }
     }
     public int DANG_KY_DT() {
-        // thở hết nổi gòi. để mai làm tiếp
+
         return 0;
     }
 }
