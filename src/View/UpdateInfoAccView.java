@@ -1,5 +1,8 @@
 package View;
 
+import DAO.TaiKhoanDAO;
+import Model.TaiKhoanModel;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,8 +15,8 @@ public class UpdateInfoAccView extends JFrame {
     private JTextField inputFullname;
     private JTextField inputEmail;
     private JTextField inputPhoneNum;
-
-    public UpdateInfoAccView() {
+    private  String MaTaiKhoan;
+    public UpdateInfoAccView(String maTaiKhoan) {
         JFrame.setDefaultLookAndFeelDecorated(true);
         this.setTitle("Cập nhật thông tin tài khoản");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,6 +33,10 @@ public class UpdateInfoAccView extends JFrame {
 
         jPanelHeader.add(labelHeader);
 
+        MaTaiKhoan = maTaiKhoan;
+        TaiKhoanModel accTemp = new TaiKhoanModel();
+        accTemp.setMaTaiKhoan(MaTaiKhoan);
+        TaiKhoanModel infoAcc = TaiKhoanDAO.getInstance().selectById(accTemp);
         JPanel jPanelBody = new JPanel(new GridLayout(4,2,40,20));
 
         JLabel labelUsername = new JLabel("Tên đăng nhập");
@@ -39,6 +46,8 @@ public class UpdateInfoAccView extends JFrame {
         JPanel panelUsername = new JPanel(new GridLayout(2,1,5,0));
 
         inputUsername = new JTextField(50);
+        inputUsername.setText(infoAcc.getTenTaiKhoan());
+        inputUsername.setEditable(false);
         panelUsername.add(labelUsername);
         panelUsername.add(inputUsername);
 
@@ -47,7 +56,7 @@ public class UpdateInfoAccView extends JFrame {
         labelPassword.setForeground(new Color(39, 167, 239));
 
         JPanel panelPassword = new JPanel(new GridLayout(2,1,5,0));
-        inputPassword = new JTextField(50);
+        inputPassword = new JPasswordField(50);
         panelPassword.add(labelPassword);
         panelPassword.add(inputPassword);
 
@@ -66,6 +75,7 @@ public class UpdateInfoAccView extends JFrame {
 
         JPanel panelAddress = new JPanel(new GridLayout(2,1,5,0));
         inputAddress = new JTextField(50);
+        inputAddress.setText(infoAcc.getDCTaiKhoan());
         panelAddress.add(labelAddress);
         panelAddress.add(inputAddress);
 
@@ -75,6 +85,7 @@ public class UpdateInfoAccView extends JFrame {
 
         JPanel panelFullname = new JPanel(new GridLayout(2,1,5,0));
         inputFullname = new JTextField(50);
+        inputFullname.setText(infoAcc.getHoVaTen());
         panelFullname.add(labelFullname);
         panelFullname.add(inputFullname);
 
@@ -84,6 +95,7 @@ public class UpdateInfoAccView extends JFrame {
 
         JPanel panelEmail = new JPanel(new GridLayout(2,1,5,0));
         inputEmail= new JTextField(50);
+        inputEmail.setText(infoAcc.getEmail());
         panelEmail.add(labelEmail);
         panelEmail.add(inputEmail);
 
@@ -96,6 +108,7 @@ public class UpdateInfoAccView extends JFrame {
 
         JPanel panelPhoneNum = new JPanel(new GridLayout(2,1,5,0));
         inputPhoneNum = new JTextField(50);
+        inputPhoneNum.setText(infoAcc.getSoDienThoai());
         panelPhoneNum.add(labelPhoneNum);
         panelPhoneNum.add(inputPhoneNum);
 
@@ -140,7 +153,4 @@ public class UpdateInfoAccView extends JFrame {
         this.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new UpdateInfoAccView();
-    }
 }
