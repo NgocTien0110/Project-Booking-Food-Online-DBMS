@@ -25,8 +25,10 @@ public class ChiNhanh_AdminView extends JPanel {
     private JButton btnEdit;
     private JButton btnDelete;
     private JButton btnSave;
-    public ChiNhanh_AdminView(String maDT)
+    private String MaTaiKhoan;
+    public ChiNhanh_AdminView(String maDT, String maTaiKhoan)
     {
+        MaTaiKhoan = maTaiKhoan;
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(1200, 600));
         JLabel title=new JLabel("Danh sách chi nhánh");
@@ -112,6 +114,15 @@ public class ChiNhanh_AdminView extends JPanel {
         btnBack.setForeground(Color.WHITE);
         btnBack.setBackground(new Color(1, 119, 219));
         btnBack.setFont(new Font("Arial", Font.BOLD, 15));
+        btnBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new MenuDoiTac(maTaiKhoan);
+                Window win = SwingUtilities.getWindowAncestor(ChiNhanh_AdminView.this);
+                win.dispose();
+            }
+        });
+
         btnViewListFood=new JButton("Xem danh sách món ăn");
         btnViewListFood.setForeground(Color.WHITE);
         btnViewListFood.setBackground(new Color(1, 119, 219));
@@ -215,6 +226,7 @@ public class ChiNhanh_AdminView extends JPanel {
 
             }
         });
+
         btnViewListFood.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -230,7 +242,6 @@ public class ChiNhanh_AdminView extends JPanel {
                 }
             }
         });
-
 
         btnEdit.addActionListener(new ActionListener() {
             @Override
@@ -256,11 +267,11 @@ public class ChiNhanh_AdminView extends JPanel {
 
 
     }
-    public void createAndShowGUI(String maDT)
+    public void createAndShowGUI(String maDT, String maTaiKhoan)
     {
         JFrame frame = new JFrame("Danh sách chi nhánh");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel newContentPane = new ChiNhanh_AdminView(maDT);
+        JPanel newContentPane = new ChiNhanh_AdminView(maDT, maTaiKhoan);
         newContentPane.setOpaque(true);
         frame.setContentPane(newContentPane);
         frame.pack();
@@ -268,8 +279,4 @@ public class ChiNhanh_AdminView extends JPanel {
         frame.setLocationRelativeTo(null);
 
     }
-
-
-
-
 }

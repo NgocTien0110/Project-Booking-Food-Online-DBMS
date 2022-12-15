@@ -171,6 +171,16 @@ public class LoginView extends JPanel {
                                 Window win = SwingUtilities.getWindowAncestor(LoginView.this);
                                 win.dispose();
                             } else if ((Character.compare(MaTaiKhoan.charAt(0),'D') == 0) && (Character.compare(MaTaiKhoan.charAt(1),'D') == 0)) {
+                                sql = "Select * From TaiKhoan tk,NguoiDaiDien dd where tk.MaTaiKhoan=dd.MaTaiKhoanDD and tk.MaTaiKhoan=?";
+                                PreparedStatement pst1 = con.prepareStatement(sql);
+                                pst1.setString(1,MaTaiKhoan);
+
+                                //Bước 3: Thực thi câu lệnh SQL
+                                ResultSet rs1 = pst1.executeQuery();
+                                String MaDoiTac = "";
+                                while (rs1.next()) {
+                                    MaDoiTac = rs1.getString("MaDoiTac");
+                                }
                                 new MenuDoiTac(MaTaiKhoan);
                                 Window win = SwingUtilities.getWindowAncestor(LoginView.this);
                                 win.dispose();

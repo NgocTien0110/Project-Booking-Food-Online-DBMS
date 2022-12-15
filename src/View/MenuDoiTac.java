@@ -1,9 +1,14 @@
 package View;
 
+import database.JDBCUtil;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class MenuDoiTac extends JFrame implements ActionListener {
     private JLabel labelHeader;
@@ -12,8 +17,30 @@ public class MenuDoiTac extends JFrame implements ActionListener {
     private JButton buttonViewListChiNhanh;
     private JButton buttonLogout;
     private String MaTaiKhoanDD;
+    private String MaDoiTac;
     public MenuDoiTac(String maTaiKhoanDD) {
         MaTaiKhoanDD = maTaiKhoanDD;
+        try {
+            //Bước 1: Tạo kết nối đến CSDL
+            Connection con = JDBCUtil.getConnection();
+
+            //Bước 2: Tạo ra đối tượng statement
+            String sql = "Select * From TaiKhoan tk,NguoiDaiDien dd where tk.MaTaiKhoan=dd.MaTaiKhoanDD and tk.MaTaiKhoan=?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1,MaTaiKhoanDD);
+
+            //Bước 3: Thực thi câu lệnh SQL
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                MaDoiTac = rs.getString("MaDoiTac");
+            }
+
+            JDBCUtil.closeConnection(con);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        System.out.println(MaDoiTac);
+
         JFrame.setDefaultLookAndFeelDecorated(true);
         this.setTitle("Hệ thống đặt món ăn online");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -93,6 +120,10 @@ public class MenuDoiTac extends JFrame implements ActionListener {
         }
         else if (strAction.equals("Xem danh sách đối tác")) {
             new DoiTac_UserView(MaTaiKhoanDD).createAndShowGUI(MaTaiKhoanDD);
+            this.dispose();
+        }
+        else if (strAction.equals("Chỉnh sửa thông tin chi nhánh")) {
+            new ChiNhanh_AdminView(MaDoiTac, MaTaiKhoanDD).createAndShowGUI(MaDoiTac, MaTaiKhoanDD);
             this.dispose();
         }
         else if (strAction.equals("Đăng xuất")){
