@@ -209,7 +209,7 @@ public class ChiNhanh_UserView extends JPanel {
         btnBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new DoiTac_UserView(MaTaiKhoan).createAndShowGUI(MaTaiKhoan);
+                new DoiTac_UserView(MaTaiKhoan);
                 Window win = SwingUtilities.getWindowAncestor(ChiNhanh_UserView.this);
                 win.dispose();
             }
