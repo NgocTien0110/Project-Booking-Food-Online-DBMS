@@ -233,10 +233,10 @@ public class ChiNhanh_AdminView extends JPanel {
                 int i = table.getSelectedRow();
 
 
-                if (model.getValueAt(i,1).toString().equals("")) {
+                if (model.getValueAt(i,0).toString().equals("")) {
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn chi nhánh");
                 } else {
-                    new FoodListForPartners(maDT,model.getValueAt(i,1).toString());
+                    new FoodListForPartners(maDT,model.getValueAt(i,0).toString(), MaTaiKhoan);
                     Window win = SwingUtilities.getWindowAncestor(ChiNhanh_AdminView.this);
                     win.dispose();
                 }
@@ -250,7 +250,7 @@ public class ChiNhanh_AdminView extends JPanel {
                 if (row == -1) {
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn chi nhánh cần cập nhật");
                 } else {
-                    call.sp_CapNhatTinhTrangCN(maDT,table.getValueAt(row, 0).toString(),status.getText());
+                    call.sp_CapNhatTinhTrangCN(maDT,model.getValueAt(row, 0).toString(),status.getText());
                     model.setValueAt(status.getText(), row, 6);
                     status.setText(status.getText());
                     JOptionPane.showMessageDialog(null, "Cập nhật thành công");

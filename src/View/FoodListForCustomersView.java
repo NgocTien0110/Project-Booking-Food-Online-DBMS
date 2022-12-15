@@ -7,6 +7,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * View
@@ -14,7 +16,7 @@ import java.awt.*;
  * Date 12/12/2022 - 10:00 AM
  * Description: ...
  */
-public class FoodListForCustomersView extends JFrame {
+public class FoodListForCustomersView extends JFrame implements ActionListener {
     private JLabel labelHeader;
     private JTextField inputSearch;
     private JButton buttonSearch;
@@ -26,10 +28,15 @@ public class FoodListForCustomersView extends JFrame {
     private JTable tableFoodList;
     private JButton buttonBack;
     private JButton buttonAdd;
-
     private String[] columnNames = {"ID món", "Chi nhánh", "Tên món ăn", "Mô tả", "Số lượng", "Giá"};
+    private String MaTaiKhoan;
+    private String MaDoiTac;
+    private String MaChiNhanh;
 
-    public FoodListForCustomersView(String maDoiTac, String maChiNhanh) {
+    public FoodListForCustomersView(String maDoiTac, String maChiNhanh, String maTaiKhoan) {
+        MaTaiKhoan = maTaiKhoan;
+        MaChiNhanh = maChiNhanh;
+        MaDoiTac = maDoiTac;
         JFrame.setDefaultLookAndFeelDecorated(true);
         this.setTitle("Danh sách món ăn");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -159,9 +166,10 @@ public class FoodListForCustomersView extends JFrame {
         jPanelBodyBottom.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
         buttonAdd = new JButton("Thêm");
         buttonBack = new JButton("Quay lại");
+        buttonBack.addActionListener(this);
 
-        jPanelBodyBottom.add(buttonAdd);
         jPanelBodyBottom.add(buttonBack);
+        jPanelBodyBottom.add(buttonAdd);
 
 
 
@@ -178,8 +186,13 @@ public class FoodListForCustomersView extends JFrame {
 
     }
 
-    public static void main(String[] args) {
-        // truyền vào mã đối tác và mã chi nhánh
-        new FoodListForCustomersView("DT000001", "CN000002");
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String strAction = e.getActionCommand();
+        if (strAction.equals("Quay lại")) {
+            new ChiNhanh_UserView(MaDoiTac, MaTaiKhoan).createAndShowGUI(MaDoiTac, MaTaiKhoan);
+            this.dispose();
+        }
     }
 }

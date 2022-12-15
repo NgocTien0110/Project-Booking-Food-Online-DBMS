@@ -208,22 +208,14 @@ public class DoiTac_UserView extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if ((Character.compare(MaTaiKhoan.charAt(0),'K') == 0) && (Character.compare(MaTaiKhoan.charAt(1),'H') == 0)) {
                     new MenuKhachHang(MaTaiKhoan);
-                    Window win = SwingUtilities.getWindowAncestor(DoiTac_UserView.this);
-                    win.dispose();
                 }
                 else if ((Character.compare(MaTaiKhoan.charAt(0),'T') == 0) && (Character.compare(MaTaiKhoan.charAt(1),'X') == 0)) {
                     new MenuTaiXe(MaTaiKhoan);
-                    Window win = SwingUtilities.getWindowAncestor(DoiTac_UserView.this);
-                    win.dispose();
                 }
                 else if ((Character.compare(MaTaiKhoan.charAt(0),'N') == 0) && (Character.compare(MaTaiKhoan.charAt(1),'V') == 0)) {
                     new MenuNhanVien(MaTaiKhoan);
-                    Window win = SwingUtilities.getWindowAncestor(DoiTac_UserView.this);
-                    win.dispose();
                 } else if ((Character.compare(MaTaiKhoan.charAt(0),'D') == 0) && (Character.compare(MaTaiKhoan.charAt(1),'D') == 0)) {
                     new MenuDoiTac(MaTaiKhoan);
-                    Window win = SwingUtilities.getWindowAncestor(DoiTac_UserView.this);
-                    win.dispose();
                 }
                 Window win = SwingUtilities.getWindowAncestor(DoiTac_UserView.this);
                 win.dispose();
@@ -247,7 +239,6 @@ public class DoiTac_UserView extends JPanel {
     }
     public void createAndShowGUI(String maTaiKhoan)
     {
-        System.out.println(maTaiKhoan);
         JFrame frame = new JFrame("DT_User");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel newContentPane = new DoiTac_UserView(maTaiKhoan);
@@ -258,13 +249,6 @@ public class DoiTac_UserView extends JPanel {
         frame.setLocationRelativeTo(null);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new DoiTac_UserView("KH0001").createAndShowGUI("KH0001");
-            }
-        });
-    }
     // add even
 
 }

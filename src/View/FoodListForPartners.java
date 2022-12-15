@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * Date 12/12/2022 - 10:00 AM
  * Description: ...
  */
-public class FoodListForPartners extends JFrame {
+public class FoodListForPartners extends JFrame implements ActionListener {
     private JLabel labelHeader;
     private JTextField inputSearch;
     private JButton buttonSearch;
@@ -36,12 +36,18 @@ public class FoodListForPartners extends JFrame {
     private JButton buttonAdd;
     private JButton buttonUpdate;
     private JButton buttonDelete;
+    private String MaTaiKhoan;
+    private String MaDoiTac;
+    private String MaChiNhanh;
 //    private JButton buttonSave;
 
     private String[] columnNames = {"ID món", "Chi nhánh", "Tên món ăn", "Mô tả", "Số lượng", "Giá"};
 
     ArrayList<ThucDonModel> list = ThucDonDAO.getInstance().selectAll();
-    public FoodListForPartners(String maDoiTac, String maChiNhanh) {
+    public FoodListForPartners(String maDoiTac, String maChiNhanh, String maTaiKhoan) {
+        MaDoiTac = maDoiTac;
+        MaChiNhanh = maChiNhanh;
+        MaTaiKhoan = maTaiKhoan;
         JFrame.setDefaultLookAndFeelDecorated(true);
         this.setTitle("Danh sách món ăn");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -160,6 +166,7 @@ public class FoodListForPartners extends JFrame {
         JPanel jPanelBodyBottom = new JPanel(new GridLayout(1, 5, 20, 0));
         jPanelBodyBottom.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
         buttonBack = new JButton("Quay lại");
+        buttonBack.addActionListener(this);
         buttonAdd = new JButton("Thêm");
         buttonUpdate = new JButton("Sửa");
         buttonUpdate.addActionListener(new ActionListener() {
@@ -260,9 +267,12 @@ public class FoodListForPartners extends JFrame {
 
     }
 
-
-
-    public static void main(String[] args) {
-        new FoodListForPartners( "DT000001", "CN000002");
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String strAction = e.getActionCommand();
+        if (strAction.equals("Quay lại")) {
+            new ChiNhanh_AdminView(MaDoiTac, MaTaiKhoan).createAndShowGUI(MaDoiTac,MaTaiKhoan);
+            this.dispose();
+        }
     }
 }

@@ -249,7 +249,7 @@ public class ChiNhanh_UserView extends JPanel {
                 if (macn.getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn chi nhánh");
                 } else {
-                    new FoodListForCustomersView(maDT,macn.getText());
+                    new FoodListForCustomersView(maDT,macn.getText(), MaTaiKhoan);
                     Window win = SwingUtilities.getWindowAncestor(ChiNhanh_UserView.this);
                     win.dispose();
                 }
