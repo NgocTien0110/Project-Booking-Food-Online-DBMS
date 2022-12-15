@@ -1,22 +1,21 @@
 package StoredProcedure;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
-public class ContractProcedure {
+public class DatDonHangProcedure {
     private Connection con;
-    public ContractProcedure() {
+    public DatDonHangProcedure() {
         con = database.JDBCUtil.getConnection();
     }
 
-    public int SP_DLCapNhatThoiGianHLHopDong(String maHopDong, int thoiGianHL) {
+    public int SP_LUDatDonHang(String tinhTrangDonHang, double phiDonHang, String hinhThucPayment, String DCGiaoHang,
+                               float phiVanChuyen, Date ngayTaoDon, String maChiNhanh, String maDoiTac, int SLMonDat,
+                               String tuyChon, String maMonAn) {
         int check = 0;
         try {
-            PreparedStatement pst = con.prepareStatement("{call sp_CapNhatThoiGianHLHopDongDL(?,?)}");
-            pst.setString(1, maHopDong);
-            pst.setInt(2, thoiGianHL);
+            PreparedStatement pst = con.prepareStatement("{call sp_DatDonHangMonAn(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            pst.setString(1, tinhTrangDonHang);
+            pst.setDouble(2, phiDonHang);
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {

@@ -145,27 +145,6 @@ public class OrderFoodView extends JFrame implements ActionListener {
         panelPayment.add(labelPayment);
         panelPayment.add(inputPayment);
 
-
-//        JLabel labelShipFee = new JLabel("Phí vận chuyển");
-//        labelShipFee.setFont(fontBody);
-//        labelShipFee.setForeground(new Color(39, 167, 239));
-//
-//        JPanel panelShipFee = new JPanel(new GridLayout(2,1,5,0));
-//        inputShipFee = new JTextField(50);
-//        inputShipFee.setText(String.valueOf(15.000));
-//        inputShipFee.setEditable(false);
-//        panelShipFee.add(labelShipFee);
-//        panelShipFee.add(inputShipFee);
-//
-//        JLabel labelTotalPrice = new JLabel("Tổng giá tiền");
-//        labelTotalPrice.setFont(fontBody);
-//        labelTotalPrice.setForeground(new Color(39, 167, 239));
-//
-//        JPanel panelTotalPrice = new JPanel(new GridLayout(2,1,5,0));
-//        inputTotalPrice = new JTextField(50);
-//        panelTotalPrice.add(labelTotalPrice);
-//        panelTotalPrice.add(inputTotalPrice);
-
         jPanelBody.add(panelFoodName);
         jPanelBody.add(panelAddress);
         jPanelBody.add(panelPrice);
@@ -179,9 +158,10 @@ public class OrderFoodView extends JFrame implements ActionListener {
         JPanel jPanelBodyRight = new JPanel();
         jPanelBodyRight.setPreferredSize(new Dimension(250,360));
 
-        JButton jButtonBack = new JButton("Trở về");
+        JButton jButtonBack = new JButton("Quay lại");
         jButtonBack.setPreferredSize(new Dimension(215,60));
         jButtonBack.setBackground(new Color(217, 217, 217));
+        jButtonBack.addActionListener(this);
 
         JButton jButtonOrder = new JButton("Đặt hàng");
         jButtonOrder.setPreferredSize(new Dimension(215,60));
@@ -256,7 +236,8 @@ public class OrderFoodView extends JFrame implements ActionListener {
                     "Chỉnh sửa Slang Word", JOptionPane.OK_CANCEL_OPTION);
 
             if (result == JOptionPane.OK_OPTION) {
-
+                JOptionPane.showMessageDialog(null, "Đặt hàng thành công",
+                        "Thông báo",JOptionPane.INFORMATION_MESSAGE);
             } else {
 
             }

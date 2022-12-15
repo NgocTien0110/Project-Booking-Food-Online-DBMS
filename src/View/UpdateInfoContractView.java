@@ -4,6 +4,7 @@ import DAO.HopDongDAO;
 import DAO.TaiKhoanDAO;
 import Model.HopDongModel;
 import Model.TaiKhoanModel;
+import StoredProcedure.ContractProcedure;
 import database.JDBCUtil;
 
 import javax.swing.*;
@@ -29,6 +30,9 @@ public class UpdateInfoContractView extends JFrame implements ActionListener {
     private JTextField inputNoti;
     private String MaTaiKhoan;
     private String MaHopDong;
+    private int thoiGianHL;
+    private boolean daDuyet;
+    private JComboBox<String> inputStatusContract;
 
     public UpdateInfoContractView(String maTaiKhoan, String maHopDong) {
         MaTaiKhoan = maTaiKhoan;
@@ -65,13 +69,17 @@ public class UpdateInfoContractView extends JFrame implements ActionListener {
                 Date ngayKy = rs.getDate("NgayKi");
                 String maNVPhuTrach = rs.getString("MaTaiKhoanNV");
                 float phanTramHH = rs.getFloat("PhamTramHoaHong");
-                int thoiGianHL = rs.getInt("ThoiGianHieuLuc");
+                int thoiGianHLTemp = rs.getInt("ThoiGianHieuLuc");
                 double phiHH = rs.getDouble("PhiHoaHong");
 
-                if (thoiGianHL < 0) {
+                if (thoiGianHLTemp < 0) {
                     thoiGianHL = 0;
+                    daDuyet = false;
+                } else {
+                    thoiGianHL = thoiGianHLTemp;
+                    daDuyet = true;
                 }
-                JPanel jPanelBody = new JPanel(new GridLayout(4, 2, 40, 20));
+                JPanel jPanelBody = new JPanel(new GridLayout(5, 2, 40, 20));
 
                 JLabel labelRepre = new JLabel("Tên người đại diện");
                 labelRepre.setFont(fontBody);
@@ -153,6 +161,18 @@ public class UpdateInfoContractView extends JFrame implements ActionListener {
                 panelNoti.add(labelNoti);
                 panelNoti.add(inputNoti);
 
+                JLabel labelOption = new JLabel("Tình trạng hợp đồng");
+                String[] option;
+                if (!daDuyet) {
+                    option = new String[] {"Chưa duyệt", "Đã duyệt"};
+                } else {
+                    option = new String[] {"Đã duyệt", "Chưa duyệt"};
+                }
+                JPanel panelOption = new JPanel(new GridLayout(2,1,5,0));
+                inputStatusContract = new JComboBox<String>(option);
+                panelOption.add(labelOption);
+                panelOption.add(inputStatusContract);
+
                 jPanelBody.add(panelRepreName);
                 jPanelBody.add(panelSignDay);
                 jPanelBody.add(panelParterName);
@@ -161,6 +181,7 @@ public class UpdateInfoContractView extends JFrame implements ActionListener {
                 jPanelBody.add(panelStaffName);
                 jPanelBody.add(panelCommisFee);
                 jPanelBody.add(panelNoti);
+                jPanelBody.add(panelOption);
                 jPanelBody.setPreferredSize(new Dimension(500, 360));
 
                 JPanel jPanelBodyLeft = new JPanel();
@@ -180,6 +201,7 @@ public class UpdateInfoContractView extends JFrame implements ActionListener {
                 JButton jButtonUpdateInfo = new JButton("Cập nhật");
                 jButtonUpdateInfo.setPreferredSize(new Dimension(130, 60));
                 jButtonUpdateInfo.setBackground(new Color(217, 217, 217));
+                jButtonUpdateInfo.addActionListener(this);
 
                 JPanel jPanelBot = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 60));
                 jPanelBot.add(jButtonBack);
@@ -213,6 +235,25 @@ public class UpdateInfoContractView extends JFrame implements ActionListener {
         if (acStr.equals("Quay lại")) {
             new DanhSachHopDongView(MaTaiKhoan);
             this.dispose();
+        }
+        else if(acStr.equals("Cập nhật")) {
+            String option = (String) inputStatusContract.getSelectedItem();
+            ContractProcedure contractProcedure = new ContractProcedure();
+            if (option.equals("Đã duyệt") && daDuyet==true) {
+
+            } else if(option.equals("Đã duyệt") && daDuyet == false) {
+
+            } else if (option.equals("Chưa duyệt") && daDuyet == true) {
+
+            }
+            int check = contractProcedure.SP_LUCapNhatThoiGianHLHopDong(MaHopDong,Integer.parseInt(inputTimeRemain.getText()));
+            if (check == 1) {
+                JOptionPane.showMessageDialog(null, "Cập nhật thời gian hiệu lực thành công",
+                        "Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Cập nhật thời gian hiệu lực thất bại",
+                        "Thông báo",JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 }
