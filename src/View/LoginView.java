@@ -2,10 +2,19 @@ package View;
 
 
 
+import StoredProcedure.CallStoredProcedure;
+import database.JDBCUtil;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Date;
+import java.util.Vector;
 
 /**
  *
@@ -121,6 +130,62 @@ public class LoginView extends JPanel {
         login.setBackground(new java.awt.Color(1, 119, 216));
         login.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         login.setForeground(new java.awt.Color(255, 255, 255));
+        login.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (username.getText().equals("") || password.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Bạn chưa nhập tên tài khoản hoặc mật khẩu",
+                            "Thông báo",JOptionPane.INFORMATION_MESSAGE);
+                }
+                else {
+                    CallStoredProcedure csp = new CallStoredProcedure();
+                    int check = csp.ESP_DangNhap(username.getText().trim(), password.getText().trim());
+                    if (check == 1) {
+                        try {
+                            //Bước 1: Tạo kết nối đến CSDL
+                            Connection con = JDBCUtil.getConnection();
+
+                            //Bước 2: Tạo ra đối tượng statement
+                            String sql = "Select MaTaiKhoan From TaiKhoan where TenTaiKhoan=?";
+                            PreparedStatement pst = con.prepareStatement(sql);
+                            pst.setString(1,username.getText());
+
+                            //Bước 3: Thực thi câu lệnh SQL
+                            ResultSet rs = pst.executeQuery();
+                            String MaTaiKhoan = "";
+                            while (rs.next()) {
+                                MaTaiKhoan = rs.getString("MaTaiKhoan");
+                            }
+                            if ((Character.compare(MaTaiKhoan.charAt(0),'K') == 0) && (Character.compare(MaTaiKhoan.charAt(1),'H') == 0)) {
+                                new MenuKhachHang(MaTaiKhoan);
+                                Window win = SwingUtilities.getWindowAncestor(LoginView.this);
+                                win.dispose();
+                            }
+                            else if ((Character.compare(MaTaiKhoan.charAt(0),'T') == 0) && (Character.compare(MaTaiKhoan.charAt(1),'X') == 0)) {
+                                new MenuTaiXe(MaTaiKhoan);
+                                Window win = SwingUtilities.getWindowAncestor(LoginView.this);
+                                win.dispose();
+                            }
+                             else if ((Character.compare(MaTaiKhoan.charAt(0),'N') == 0) && (Character.compare(MaTaiKhoan.charAt(1),'V') == 0)) {
+                                new MenuNhanVien(MaTaiKhoan);
+                                Window win = SwingUtilities.getWindowAncestor(LoginView.this);
+                                win.dispose();
+                            } else if ((Character.compare(MaTaiKhoan.charAt(0),'D') == 0) && (Character.compare(MaTaiKhoan.charAt(1),'D') == 0)) {
+                                new MenuDoiTac(MaTaiKhoan);
+                                Window win = SwingUtilities.getWindowAncestor(LoginView.this);
+                                win.dispose();
+                            }
+                            JDBCUtil.closeConnection(con);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Bạn nhập sai tên tài khoản hoặc mật khẩu",
+                                "Thông báo",JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
 
 
         //đăng ký
