@@ -206,7 +206,7 @@ public class ChiNhanh_AdminView extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int i = table.getSelectedRow();
-                name.setText(model.getValueAt(i, 1).toString());
+                name.setText(model.getValueAt(i, 3).toString());
                 phone.setText(model.getValueAt(i, 2).toString());
                 address.setText(model.getValueAt(i, 3).toString());
                 timeOpen.setText(model.getValueAt(i, 4).toString());
@@ -215,6 +215,22 @@ public class ChiNhanh_AdminView extends JPanel {
 
             }
         });
+        btnViewListFood.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int i = table.getSelectedRow();
+
+
+                if (model.getValueAt(i,1).toString().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn chi nhánh");
+                } else {
+                    new FoodListForPartners(maDT,model.getValueAt(i,1).toString());
+                    Window win = SwingUtilities.getWindowAncestor(ChiNhanh_AdminView.this);
+                    win.dispose();
+                }
+            }
+        });
+
 
         btnEdit.addActionListener(new ActionListener() {
             @Override

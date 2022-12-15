@@ -257,6 +257,14 @@ public class DoiTac_UserView extends JPanel {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
     }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new DoiTac_UserView("KH0001").createAndShowGUI("KH0001");
+            }
+        });
+    }
     // add even
 
 }

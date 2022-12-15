@@ -16,10 +16,11 @@ import java.util.ArrayList;
 
 public class ChiNhanh_UserView extends JPanel {
     private JComboBox status;
+    private JTextField madt;
     private JTextField searchField;
     private JTextField name;
+    private JTextField macn;
     private JTextField timeClose;
-    private JTextField madt;
     private JTextField address;
     private JTextField timeOpen;
     private JButton btnBack;
@@ -49,6 +50,25 @@ public class ChiNhanh_UserView extends JPanel {
         topPanel.add(Box.createRigidArea(new Dimension(250, 50)));
         topPanel.add(searchPanel);
         topPanel.add(Box.createRigidArea(new Dimension(0, 50)));
+        JLabel macn_label=new JLabel("Mã chi nhánh:");
+        macn_label.setFont(new Font("Arial", Font.BOLD, 15));
+        macn_label.setForeground(new Color(1, 119, 219));
+        macn = new JTextField(10);
+        macn.setEditable(false);
+        JPanel macn_panel = new JPanel();
+        macn_panel.setLayout(new BoxLayout(macn_panel, BoxLayout.Y_AXIS));
+        macn_panel.add(macn_label);
+        macn_panel.add(macn);
+        JLabel madt_label=new JLabel("Mã đối tác:");
+        madt_label.setFont(new Font("Arial", Font.BOLD, 15));
+        madt_label.setForeground(new Color(1, 119, 219));
+        madt = new JTextField(10);
+        madt.setEditable(false);
+        madt.setText(maDT);
+        JPanel madt_panel = new JPanel();
+        madt_panel.setLayout(new BoxLayout(madt_panel, BoxLayout.Y_AXIS));
+        madt_panel.add(madt_label);
+        madt_panel.add(madt);
         JLabel name_label = new JLabel("Tên chi nhánh:");
         name_label.setFont(new Font("Arial", Font.BOLD, 15));
         name_label.setForeground(new Color(1, 119, 219));
@@ -107,8 +127,8 @@ public class ChiNhanh_UserView extends JPanel {
         statusPanel.add(status);
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new GridLayout(2, 3, 60, 20));
+        infoPanel.add(macn_panel);
         infoPanel.add(namePanel);
-        infoPanel.add(phonePanel);
         infoPanel.add(addressPanel);
         infoPanel.add(timeOpenPanel);
         infoPanel.add(closePanel);
@@ -150,7 +170,7 @@ public class ChiNhanh_UserView extends JPanel {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         // insert data to table
         DefaultTableModel model = new DefaultTableModel();
-        Object[] column = {"Tên chi nhánh", "Mã đối tác", "Địa chỉ", "Thời gian mở cửa", "Thời gian đóng cửa", "Trạng thái"};
+        Object[] column = {"Mã chi nhánh","Tên chi nhánh", "Mã đối tác", "Địa chỉ", "Thời gian mở cửa", "Thời gian đóng cửa", "Trạng thái"};
         model.setColumnIdentifiers(column);
         table.setModel(model);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -179,11 +199,11 @@ public class ChiNhanh_UserView extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int i = table.getSelectedRow();
-                name.setText(model.getValueAt(i, 0).toString());
-                madt.setText(model.getValueAt(i, 1).toString());
-                address.setText(model.getValueAt(i, 2).toString());
-                timeOpen.setText(model.getValueAt(i, 3).toString());
-                timeClose.setText(model.getValueAt(i, 4).toString());
+                macn.setText(model.getValueAt(i, 0).toString());
+                name.setText(model.getValueAt(i, 1).toString());
+                address.setText(model.getValueAt(i, 3).toString());
+                timeOpen.setText(model.getValueAt(i, 4).toString());
+                timeClose.setText(model.getValueAt(i, 5).toString());
             }
         });
         btnBack.addActionListener(new ActionListener() {
@@ -214,12 +234,25 @@ public class ChiNhanh_UserView extends JPanel {
                 }
             }
         });
+        btnBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new DoiTac_UserView(MaTaiKhoan).createAndShowGUI(MaTaiKhoan);
+                Window win = SwingUtilities.getWindowAncestor(ChiNhanh_UserView.this);
+                win.dispose();
+            }
+        });
         btnViewListFood.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Window win = SwingUtilities.getWindowAncestor(ChiNhanh_UserView.this);
-                win.dispose();
+                if (macn.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn chi nhánh");
+                } else {
+                    new FoodListForCustomersView(maDT,macn.getText());
+                    Window win = SwingUtilities.getWindowAncestor(ChiNhanh_UserView.this);
+                    win.dispose();
+                }
             }
         });
 
