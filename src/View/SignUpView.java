@@ -24,7 +24,7 @@ public class SignUpView extends JFrame {
     private JTextField inputFullname;
     private JComboBox<String> inputAccountType;
 
-    private String accountType[] = {"Khách hàng", "Tài xế", "Đối tác"};
+    private String accountType[] = {"Khách hàng", "Tài xế", "Đối tác", "Nhân viên"};
 
     public SignUpView() {
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -177,8 +177,41 @@ public class SignUpView extends JFrame {
                             JOptionPane.showMessageDialog(null, "Đăng ký thất bại");
                         }
                     }
+                    if (accountType.equals("Tài xế")) {
+                        DANG_KY dangKy = new DANG_KY();
+                        int sta = dangKy.DANG_KY_TX(username, password, address, email);
+                        System.out.println("sta" + sta);
+                        if (sta == 1) {
+                            JOptionPane.showMessageDialog(null, "Đăng ký thành công");
+                            dispose();
+                            new LoginView();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Đăng ký thất bại");
+                        }
+                    }
                     if (accountType.equals("Đối tác")) {
-                       System.out.println("Đối tác");
+                        DANG_KY dangKy = new DANG_KY();
+                        int sta = dangKy.DANG_KY_DT(username, password, address, email);
+                        System.out.println("sta" + sta);
+                        if (sta == 1) {
+                            JOptionPane.showMessageDialog(null, "Đăng ký thành công");
+                            dispose();
+                            new LoginView();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Đăng ký thất bại");
+                        }
+                    }
+                    if (accountType.equals("Nhân viên")) {
+                        DANG_KY dangKy = new DANG_KY();
+                        int sta = dangKy.DANG_KY_NV(username, password, address, email);
+                        System.out.println("sta" + sta);
+                        if (sta == 1) {
+                            JOptionPane.showMessageDialog(null, "Đăng ký thành công");
+                            dispose();
+                            new LoginView();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Đăng ký thất bại");
+                        }
                     }
                 }
             }
