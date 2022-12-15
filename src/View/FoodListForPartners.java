@@ -5,6 +5,8 @@ import DAO.ThucDonDAO;
 import Model.ThucDonModel;
 import StoredProcedure.DT_UPDATE_GIA;
 import StoredProcedure.XEM_MON_AN;
+import StoredProcedure.XOA_MON_AN;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -34,7 +36,7 @@ public class FoodListForPartners extends JFrame {
     private JButton buttonAdd;
     private JButton buttonUpdate;
     private JButton buttonDelete;
-    private JButton buttonSave;
+//    private JButton buttonSave;
 
     private String[] columnNames = {"ID món", "Chi nhánh", "Tên món ăn", "Mô tả", "Số lượng", "Giá"};
 
@@ -179,6 +181,11 @@ public class FoodListForPartners extends JFrame {
                                                     model.setRowCount(0);
                                                    XEM_MON_AN kh_xem_mon_an = new XEM_MON_AN();
                                                    kh_xem_mon_an.KH_XEM_MON_AN(model, maDoiTac, maChiNhanh);
+                                                   inputFoodName.setText("");
+                                                   inputQuantity.setText("");
+                                                   inputBrand.setText("");
+                                                   inputPrice.setText("");
+                                                   inputDescription.setText("");
 
                                                   }else {
                                                    JOptionPane.showMessageDialog(null, "Cập nhật thất bại");
@@ -202,13 +209,45 @@ public class FoodListForPartners extends JFrame {
 
 
         buttonDelete = new JButton("Xóa");
-        buttonSave = new JButton("Lưu");
+        buttonDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = tableFoodList.getSelectedRow();
+                String maMonAn = tableFoodList.getValueAt(row, 0).toString();
+
+                XOA_MON_AN callStoredProcedure = new XOA_MON_AN();
+                int sta = callStoredProcedure.XOA_MON_AN(maDoiTac, maMonAn, maChiNhanh);
+                if (sta == 1) {
+                    JOptionPane.showMessageDialog(null, "Xóa thành công");
+                    // refresh table
+                    model.setRowCount(0);
+                    XEM_MON_AN kh_xem_mon_an = new XEM_MON_AN();
+                    kh_xem_mon_an.KH_XEM_MON_AN(model, maDoiTac, maChiNhanh);
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Xóa thất bại");
+                    // refresh table
+                    model.setRowCount(0);
+                    XEM_MON_AN kh_xem_mon_an = new XEM_MON_AN();
+                    kh_xem_mon_an.KH_XEM_MON_AN(model, maDoiTac, maChiNhanh);
+
+                    inputFoodName.setText("");
+                    inputQuantity.setText("");
+                    inputBrand.setText("");
+                    inputPrice.setText("");
+                    inputDescription.setText("");
+                }
+
+            }
+        });
+
+//        buttonSave = new JButton("Lưu");
 
         jPanelBodyBottom.add(buttonBack);
         jPanelBodyBottom.add(buttonAdd);
         jPanelBodyBottom.add(buttonUpdate);
         jPanelBodyBottom.add(buttonDelete);
-        jPanelBodyBottom.add(buttonSave);
+//        jPanelBodyBottom.add(buttonSave);
 
         jPanelBody.add(jPanelBodyTop, BorderLayout.NORTH);
         jPanelBody.add(new JScrollPane(tableFoodList), BorderLayout.CENTER);
