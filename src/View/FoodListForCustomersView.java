@@ -62,30 +62,35 @@ public class FoodListForCustomersView extends JFrame {
         JPanel jPanelFoodName = new JPanel(new GridLayout(1, 2, 0, 0));
         JLabel labelFoodName = new JLabel("Tên món ăn");
         inputFoodName = new JTextField();
+        inputFoodName.setEditable(false);
         jPanelFoodName.add(labelFoodName);
         jPanelFoodName.add(inputFoodName);
 
         JPanel jPanelQuantity = new JPanel(new GridLayout(1, 2, 0, 0));
         JLabel labelQuantity = new JLabel("Số lượng");
         inputQuantity = new JTextField();
+        inputQuantity.setEditable(false);
         jPanelQuantity.add(labelQuantity);
         jPanelQuantity.add(inputQuantity);
 
         JPanel jPanelBrand = new JPanel(new GridLayout(1, 2, 0, 0));
         JLabel labelBrand = new JLabel("Chi nhánh");
         inputBrand = new JTextField();
+        inputBrand.setEditable(false);
         jPanelBrand.add(labelBrand);
         jPanelBrand.add(inputBrand);
 
         JPanel jPanelPrice = new JPanel(new GridLayout(1, 2, 0, 0));
         JLabel labelPrice = new JLabel("Giá");
         inputPrice = new JTextField();
+        inputPrice.setEditable(false);
         jPanelPrice.add(labelPrice);
         jPanelPrice.add(inputPrice);
 
         JPanel jPanelDescription = new JPanel(new GridLayout(1, 2, 0, 0));
         JLabel labelDescription = new JLabel("Mô tả");
         inputDescription = new JTextField();
+        inputDescription.setEditable(false);
         jPanelDescription.add(labelDescription);
         jPanelDescription.add(inputDescription);
 

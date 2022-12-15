@@ -3,10 +3,13 @@ package View;
 
 import DAO.ThucDonDAO;
 import Model.ThucDonModel;
+import StoredProcedure.DT_UPDATE_GIA;
 import StoredProcedure.XEM_MON_AN;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -157,8 +160,50 @@ public class FoodListForPartners extends JFrame {
         buttonBack = new JButton("Quay lại");
         buttonAdd = new JButton("Thêm");
         buttonUpdate = new JButton("Sửa");
+        buttonUpdate.addActionListener(new ActionListener() {
+                                           @Override
+                                           public void actionPerformed(ActionEvent e) {
+                                               int row = tableFoodList.getSelectedRow();
+                                               String maMonAn = tableFoodList.getValueAt(row, 0).toString();
+//                                               String tenMonAn = inputFoodName.getText();
+//                                               String soLuong = inputQuantity.getText();
+//                                               String moTa = inputDescription.getText();
+                                               String gia = inputPrice.getText();
+
+                                               DT_UPDATE_GIA callStoredProcedure = new DT_UPDATE_GIA();
+                                               int sta = callStoredProcedure.DT_UPDATE_GIA(maDoiTac, maMonAn, gia);
+
+                                               if(sta == 1){
+                                                   JOptionPane.showMessageDialog(null, "Cập nhật thành công");
+                                                   // refresh table
+                                                    model.setRowCount(0);
+                                                   XEM_MON_AN kh_xem_mon_an = new XEM_MON_AN();
+                                                   kh_xem_mon_an.KH_XEM_MON_AN(model, maDoiTac, maChiNhanh);
+
+                                                  }else {
+                                                   JOptionPane.showMessageDialog(null, "Cập nhật thất bại");
+                                                   // refresh table
+                                                   model.setRowCount(0);
+                                                   XEM_MON_AN kh_xem_mon_an = new XEM_MON_AN();
+                                                   kh_xem_mon_an.KH_XEM_MON_AN(model, maDoiTac, maChiNhanh);
+
+                                                   inputFoodName.setText("");
+                                                    inputQuantity.setText("");
+                                                    inputBrand.setText("");
+                                                    inputPrice.setText("");
+                                                    inputDescription.setText("");
+                                               }
+
+
+                                           }
+                                       }
+        );
+
+
+
         buttonDelete = new JButton("Xóa");
         buttonSave = new JButton("Lưu");
+
         jPanelBodyBottom.add(buttonBack);
         jPanelBodyBottom.add(buttonAdd);
         jPanelBodyBottom.add(buttonUpdate);
@@ -175,6 +220,8 @@ public class FoodListForPartners extends JFrame {
         this.setVisible(true);
 
     }
+
+
 
     public static void main(String[] args) {
         new FoodListForPartners( "DT000001", "CN000002");
