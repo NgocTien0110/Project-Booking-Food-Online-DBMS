@@ -4,6 +4,8 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  *
@@ -11,7 +13,7 @@ import java.awt.*;
 public class LoginView extends JPanel {
 
     private JButton login;
-    private JButton register;
+    private JButton back;
     private JLabel username_label;
     private JLabel password_label;
     private JTextField username;
@@ -122,11 +124,18 @@ public class LoginView extends JPanel {
 
 
         //đăng ký
-        register= new JButton("Đăng ký");
-        register.setBackground(new java.awt.Color(1, 119, 216));
-        register.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        register.setForeground(new java.awt.Color(255, 255, 255));
-
+        back = new JButton("Quay lại");
+        back.setBackground(new java.awt.Color(1, 119, 216));
+        back.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        back.setForeground(new java.awt.Color(255, 255, 255));
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new MenuDangNhapDangKy();
+                Window win = SwingUtilities.getWindowAncestor(LoginView.this);
+                win.dispose();
+            }
+        });
 
         GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -139,7 +148,7 @@ public class LoginView extends JPanel {
                                         .addGroup(jPanel2Layout.createSequentialGroup()
                                                 .addComponent(login)
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(register, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(back, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE))
                                         .addComponent(username_label)
                                         .addComponent(password_label)
                                         .addComponent(password)
@@ -161,7 +170,7 @@ public class LoginView extends JPanel {
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(login, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(register, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(back, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 27, Short.MAX_VALUE))
         );
 
@@ -187,6 +196,7 @@ public class LoginView extends JPanel {
         frame.setContentPane(this);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
     }// </editor-fold>
