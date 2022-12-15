@@ -1,9 +1,22 @@
 package View;
 
+import DAO.TaiKhoanDAO;
+import DAO.ThucDonDAO;
+import Model.TaiKhoanModel;
+import Model.ThucDonModel;
+import database.JDBCUtil;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Date;
+import java.util.Vector;
 
-public class OrderFoodView extends JFrame {
+public class OrderFoodView extends JFrame implements ActionListener {
     private JLabel labelHeader;
     private JTextField inputFoodName;
     private JTextField inputPrice;
@@ -13,8 +26,16 @@ public class OrderFoodView extends JFrame {
     private JComboBox<String> inputPayment;
     private JTextField inputShipFee;
     private JTextField inputTotalPrice;
+    private String MaMonAn;
+    private String MaChiNhanh;
+    private String MaDoiTac;
+    private String MaTaiKhoan;
 
-    public OrderFoodView() {
+    public OrderFoodView(String maTaiKhoan, String maDoiTac, String maChiNhanh, String maMonAn) {
+        MaTaiKhoan = maTaiKhoan;
+        MaChiNhanh = maChiNhanh;
+        MaMonAn = maMonAn;
+        MaDoiTac = maDoiTac;
         JFrame.setDefaultLookAndFeelDecorated(true);
         this.setTitle("Đặt hàng");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,12 +54,44 @@ public class OrderFoodView extends JFrame {
 
         JPanel jPanelBody = new JPanel(new GridLayout(4,2,40,20));
 
+        TaiKhoanModel accTemp = new TaiKhoanModel();
+        accTemp.setMaTaiKhoan(MaTaiKhoan);
+        TaiKhoanModel infoAcc = TaiKhoanDAO.getInstance().selectById(accTemp);
+
+        ThucDonModel thucDonTemp = new ThucDonModel();
+        thucDonTemp.setMaChiNhanh(MaChiNhanh);
+        thucDonTemp.setMaDoiTac(MaDoiTac);
+        thucDonTemp.setMaMonAn(MaMonAn);
+        ThucDonModel thucDonModel = ThucDonDAO.getInstance().selectById(thucDonTemp);
+
         JLabel labelFoodName = new JLabel("Tên món ăn");
         labelFoodName.setFont(fontBody);
         labelFoodName.setForeground(new Color(39, 167, 239));
+        String TenMonAn="";
+        try {
+            //Bước 1: Tạo kết nối đến CSDL
+            Connection con = JDBCUtil.getConnection();
+
+            //Bước 2: Tạo ra đối tượng statement
+            Statement st = con.createStatement();
+
+            //Bước 3: Thực thi câu lệnh SQL
+            String sql =String.format("SELECT * FROM ThucDon td, MonAn ma where td.MaMonAn = ma.MaMonAn and td.MaMonAn='%s'",MaMonAn);
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                TenMonAn = rs.getString("TenMonAn");
+            }
+
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         JPanel panelFoodName = new JPanel(new GridLayout(2,1,5,0));
         inputFoodName = new JTextField(50);
+        inputFoodName.setText(TenMonAn);
+        inputFoodName.setEditable(false);
         panelFoodName.add(labelFoodName);
         panelFoodName.add(inputFoodName);
 
@@ -48,6 +101,8 @@ public class OrderFoodView extends JFrame {
 
         JPanel panelPrice = new JPanel(new GridLayout(2,1,5,0));
         inputPrice = new JTextField(50);
+        inputPrice.setText(String.valueOf(thucDonModel.getGia()));
+        inputPrice.setEditable(false);
         panelPrice.add(labelPrice);
         panelPrice.add(inputPrice);
 
@@ -66,6 +121,7 @@ public class OrderFoodView extends JFrame {
 
         JPanel panelAddress = new JPanel(new GridLayout(2,1,5,0));
         inputAddress = new JTextField(50);
+        inputAddress.setText(infoAcc.getDCTaiKhoan());
         panelAddress.add(labelAddress);
         panelAddress.add(inputAddress);
 
@@ -89,32 +145,33 @@ public class OrderFoodView extends JFrame {
         panelPayment.add(labelPayment);
         panelPayment.add(inputPayment);
 
-        JLabel labelShipFee = new JLabel("Phí vận chuyển");
-        labelShipFee.setFont(fontBody);
-        labelShipFee.setForeground(new Color(39, 167, 239));
 
-        JPanel panelShipFee = new JPanel(new GridLayout(2,1,5,0));
-        inputShipFee = new JTextField(50);
-        panelShipFee.add(labelShipFee);
-        panelShipFee.add(inputShipFee);
-
-        JLabel labelTotalPrice = new JLabel("Tổng giá tiền");
-        labelTotalPrice.setFont(fontBody);
-        labelTotalPrice.setForeground(new Color(39, 167, 239));
-
-        JPanel panelTotalPrice = new JPanel(new GridLayout(2,1,5,0));
-        inputTotalPrice = new JTextField(50);
-        panelTotalPrice.add(labelTotalPrice);
-        panelTotalPrice.add(inputTotalPrice);
+//        JLabel labelShipFee = new JLabel("Phí vận chuyển");
+//        labelShipFee.setFont(fontBody);
+//        labelShipFee.setForeground(new Color(39, 167, 239));
+//
+//        JPanel panelShipFee = new JPanel(new GridLayout(2,1,5,0));
+//        inputShipFee = new JTextField(50);
+//        inputShipFee.setText(String.valueOf(15.000));
+//        inputShipFee.setEditable(false);
+//        panelShipFee.add(labelShipFee);
+//        panelShipFee.add(inputShipFee);
+//
+//        JLabel labelTotalPrice = new JLabel("Tổng giá tiền");
+//        labelTotalPrice.setFont(fontBody);
+//        labelTotalPrice.setForeground(new Color(39, 167, 239));
+//
+//        JPanel panelTotalPrice = new JPanel(new GridLayout(2,1,5,0));
+//        inputTotalPrice = new JTextField(50);
+//        panelTotalPrice.add(labelTotalPrice);
+//        panelTotalPrice.add(inputTotalPrice);
 
         jPanelBody.add(panelFoodName);
         jPanelBody.add(panelAddress);
         jPanelBody.add(panelPrice);
         jPanelBody.add(panelPayment);
         jPanelBody.add(panelNumberFood);
-        jPanelBody.add(panelShipFee);
         jPanelBody.add(panelOption);
-        jPanelBody.add(panelTotalPrice);
         jPanelBody.setPreferredSize(new Dimension(500,360));
 
         JPanel jPanelBodyLeft = new JPanel();
@@ -129,6 +186,7 @@ public class OrderFoodView extends JFrame {
         JButton jButtonOrder = new JButton("Đặt hàng");
         jButtonOrder.setPreferredSize(new Dimension(215,60));
         jButtonOrder.setBackground(new Color(217, 217, 217));
+        jButtonOrder.addActionListener(this);
 
         JPanel jPanelBot = new JPanel(new FlowLayout(FlowLayout.CENTER, 60,60));
         jPanelBot.add(jButtonBack);
@@ -148,7 +206,60 @@ public class OrderFoodView extends JFrame {
         this.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new OrderFoodView();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String strAc = e.getActionCommand();
+        if (strAc.equals("Quay lại")) {
+            new FoodListForCustomersView(MaDoiTac, MaChiNhanh, MaTaiKhoan);
+            this.dispose();
+        } else if (strAc.equals("Đặt hàng")) {
+            JLabel labelShipFee = new JLabel("Phí vận chuyển");
+            labelShipFee.setForeground(new Color(39, 167, 239));
+
+            JPanel panelShipFee = new JPanel(new GridLayout(2,1,5,0));
+            inputShipFee = new JTextField(20);
+            double shipFee;
+            int slMonDat = Integer.valueOf(inputNumberFood.getText());
+            double price = Double.valueOf(inputPrice.getText());
+            if (slMonDat * price >= 50.000) {
+                shipFee = 5000;
+            } else {
+                shipFee = 15000;
+            }
+            inputShipFee.setText(String.valueOf(shipFee));
+            inputShipFee.setEditable(false);
+            panelShipFee.add(labelShipFee);
+            panelShipFee.add(inputShipFee);
+
+            JLabel labelTotalPrice = new JLabel("Tổng giá tiền");
+            labelTotalPrice.setForeground(new Color(39, 167, 239));
+
+            JPanel panelTotalPrice = new JPanel(new GridLayout(2,1,5,0));
+            inputTotalPrice = new JTextField(20);
+            inputTotalPrice.setText(String.valueOf(slMonDat*price));
+            panelTotalPrice.add(labelTotalPrice);
+            panelTotalPrice.add(inputTotalPrice);
+
+            JPanel jPanelBody = new JPanel(new GridLayout(2,1));
+            jPanelBody.add(panelShipFee);
+            jPanelBody.add(panelTotalPrice);
+
+            JPanel jPanelHeader = new JPanel();
+            JLabel jLabelHeader = new JLabel("Vui lòng xác nhận đơn hàng");
+            jPanelHeader.add(jLabelHeader);
+
+            JPanel addPanel = new JPanel(new BorderLayout());
+            addPanel.add(jPanelHeader, BorderLayout.PAGE_START);
+            addPanel.add(jPanelBody, BorderLayout.CENTER);
+
+            int result = JOptionPane.showConfirmDialog(null, addPanel,
+                    "Chỉnh sửa Slang Word", JOptionPane.OK_CANCEL_OPTION);
+
+            if (result == JOptionPane.OK_OPTION) {
+
+            } else {
+
+            }
+        }
     }
 }

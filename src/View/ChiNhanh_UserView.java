@@ -269,15 +269,6 @@ public class ChiNhanh_UserView extends JPanel {
         frame.setLocationRelativeTo(null);
 
     }
-//    public static void main(String[] args)
-//    {
-//        SwingUtilities.invokeLater(new Runnable() {
-//            public void run() {
-//                new ChiNhanh_UserView().createAndShowGUI();
-//            }
-//        });
-//    }
-
 
 }
 // chi nhanh user

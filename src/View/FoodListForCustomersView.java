@@ -27,7 +27,7 @@ public class FoodListForCustomersView extends JFrame implements ActionListener {
     private JTextField inputDescription;
     private JTable tableFoodList;
     private JButton buttonBack;
-    private JButton buttonAdd;
+    private JButton buttonBuy;
     private String[] columnNames = {"ID món", "Chi nhánh", "Tên món ăn", "Mô tả", "Số lượng", "Giá"};
     private String MaTaiKhoan;
     private String MaDoiTac;
@@ -164,12 +164,13 @@ public class FoodListForCustomersView extends JFrame implements ActionListener {
 
         JPanel jPanelBodyBottom = new JPanel(new GridLayout(1, 2, 150, 0));
         jPanelBodyBottom.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
-        buttonAdd = new JButton("Thêm");
+        buttonBuy = new JButton("Mua ngay");
         buttonBack = new JButton("Quay lại");
         buttonBack.addActionListener(this);
+        buttonBuy.addActionListener(this);
 
         jPanelBodyBottom.add(buttonBack);
-        jPanelBodyBottom.add(buttonAdd);
+        jPanelBodyBottom.add(buttonBuy);
 
 
 
@@ -193,6 +194,17 @@ public class FoodListForCustomersView extends JFrame implements ActionListener {
         if (strAction.equals("Quay lại")) {
             new ChiNhanh_UserView(MaDoiTac, MaTaiKhoan).createAndShowGUI(MaDoiTac, MaTaiKhoan);
             this.dispose();
+        }
+        else if (strAction.equals("Mua ngay")) {
+            int row = tableFoodList.getSelectedRow();
+            if (row >= 0) {
+                new OrderFoodView(MaTaiKhoan, MaDoiTac, MaChiNhanh, tableFoodList.getValueAt(row,0).toString());
+                this.dispose();
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn món ăn để mua ngay",
+                        "Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }
 }

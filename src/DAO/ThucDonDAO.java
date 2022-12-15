@@ -62,7 +62,7 @@ public class ThucDonDAO implements DAOInterface<ThucDonModel>{
 
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, thucDonModel.getMaChiNhanh());
-            pst.setString(2, thucDonModel.getMaChiNhanh());
+            pst.setString(2, thucDonModel.getMaDoiTac());
             pst.setString(3, thucDonModel.getMaMonAn());
             ResultSet rs = pst.executeQuery();
 
