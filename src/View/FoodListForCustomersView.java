@@ -139,6 +139,8 @@ public class FoodListForCustomersView extends JFrame implements ActionListener {
         XEM_MON_AN kh_xem_mon_an = new XEM_MON_AN();
         kh_xem_mon_an.KH_XEM_MON_AN(model, maDoiTac, maChiNhanh);
 
+        //kh_xem_mon_an.DR_KH_XEM_MON_AN(model, maDoiTac, maChiNhanh);
+
         JScrollPane scrollPane = new JScrollPane(tableFoodList);
         scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         scrollPane.getViewport().setBackground(new Color(255, 255, 255));
