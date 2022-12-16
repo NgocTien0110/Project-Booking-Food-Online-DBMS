@@ -164,11 +164,11 @@ public class UpdateInfoContractView extends JFrame implements ActionListener {
                 JLabel labelOption = new JLabel("Tình trạng hợp đồng");
                 String[] option;
                 if (!daDuyet) {
-                    option = new String[] {"Chưa duyệt", "Đã duyệt"};
+                    option = new String[]{"Chưa duyệt", "Đã duyệt"};
                 } else {
-                    option = new String[] {"Đã duyệt", "Chưa duyệt"};
+                    option = new String[]{"Đã duyệt", "Chưa duyệt"};
                 }
-                JPanel panelOption = new JPanel(new GridLayout(2,1,5,0));
+                JPanel panelOption = new JPanel(new GridLayout(2, 1, 5, 0));
                 inputStatusContract = new JComboBox<String>(option);
                 panelOption.add(labelOption);
                 panelOption.add(inputStatusContract);
@@ -235,26 +235,34 @@ public class UpdateInfoContractView extends JFrame implements ActionListener {
         if (acStr.equals("Quay lại")) {
             new DanhSachHopDongView(MaTaiKhoan);
             this.dispose();
-        }
-        else if(acStr.equals("Cập nhật")) {
+        } else if (acStr.equals("Cập nhật")) {
             String option = (String) inputStatusContract.getSelectedItem();
             ContractProcedure contractProcedure = new ContractProcedure();
-            if (option.equals("Đã duyệt") && daDuyet==true) { //Trước và sau của hợp đồng đều là đã duyệt
-
-            } else if(option.equals("Đã duyệt") && daDuyet == false) { //Trước là chưa duyệt và sau là đã duyệt
-
+            int check = 0;
+            if (option.equals("Đã duyệt") && daDuyet == true) { //Trước và sau của hợp đồng đều là đã duyệt
+//                check = contractProcedure.SP_LUCapNhatThoiGianHLHopDong(MaHopDong,Integer.parseInt(inputTimeRemain.getText()));
+//                check = contractProcedure.SP_CapNhatThoiGianHLHopDongXuLyLu(MaHopDong,Integer.parseInt(inputTimeRemain.getText()));
+//                check = contractProcedure.SP_DLCapNhatThoiGianHLHopDong(MaHopDong,Integer.parseInt(inputTimeRemain.getText()));
+                check = contractProcedure.SP_CapNhatThoiGianHLHopDongXuLyDL(MaHopDong,Integer.parseInt(inputTimeRemain.getText()));
+            } else if (option.equals("Đã duyệt") && daDuyet == false) { //Trước là chưa duyệt và sau là đã duyệt
+//                check = contractProcedure.SP_LUCapNhatThoiGianHLHopDong(MaHopDong,0);
+//                check = contractProcedure.SP_CapNhatThoiGianHLHopDongXuLyLu(MaHopDong,0);
+//                check = contractProcedure.SP_DLCapNhatThoiGianHLHopDong(MaHopDong,0);
+                check = contractProcedure.SP_CapNhatThoiGianHLHopDongXuLyDL(MaHopDong,0);
             } else if (option.equals("Chưa duyệt") && daDuyet == true) { //Trước là đã duyệt và sau là chưa duyệt
-
+//                check = contractProcedure.SP_LUCapNhatThoiGianHLHopDong(MaHopDong,-1);
+//                check = contractProcedure.SP_CapNhatThoiGianHLHopDongXuLyLu(MaHopDong,-1);
+//                check = contractProcedure.SP_DLCapNhatThoiGianHLHopDong(MaHopDong,-1);
+                check = contractProcedure.SP_CapNhatThoiGianHLHopDongXuLyDL(MaHopDong,-1);
             }
-            System.out.println(option);
-//            int check = contractProcedure.SP_LUCapNhatThoiGianHLHopDong(MaHopDong,Integer.parseInt(inputTimeRemain.getText()));
-//            if (check == 1) {
-//                JOptionPane.showMessageDialog(null, "Cập nhật thời gian hiệu lực thành công",
-//                        "Thông báo",JOptionPane.INFORMATION_MESSAGE);
-//            } else {
-//                JOptionPane.showMessageDialog(null, "Cập nhật thời gian hiệu lực thất bại",
-//                        "Thông báo",JOptionPane.ERROR_MESSAGE);
-//            }
+
+            if (check == 1) {
+                JOptionPane.showMessageDialog(null, "Cập nhật thời gian hiệu lực thành công",
+                        "Thông báo",JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Cập nhật thời gian hiệu lực thất bại",
+                        "Thông báo",JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 }
