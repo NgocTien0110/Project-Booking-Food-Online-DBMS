@@ -52,7 +52,6 @@ public class ChiNhanh_AdminView extends JPanel {
         name_label.setFont(new Font("Arial", Font.BOLD, 15));
         name_label.setForeground(new Color(1, 119, 219));
         name=new JTextField(10);
-        name.setEditable(false);
         JPanel namePanel=new JPanel();
         namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.Y_AXIS));
         namePanel.add(name_label);
@@ -61,7 +60,6 @@ public class ChiNhanh_AdminView extends JPanel {
         close_label.setFont(new Font("Arial", Font.BOLD, 15));
         close_label.setForeground(new Color(1, 119, 219));
         timeClose=new JTextField(10);
-        timeClose.setEditable(false);
         JPanel closePanel=new JPanel();
         closePanel.setLayout(new BoxLayout(closePanel, BoxLayout.Y_AXIS));
         closePanel.add(close_label);
@@ -70,7 +68,6 @@ public class ChiNhanh_AdminView extends JPanel {
         phone_label.setFont(new Font("Arial", Font.BOLD, 15));
         phone_label.setForeground(new Color(1, 119, 219));
         phone=new JTextField(10);
-        phone.setEditable(false);
         JPanel phonePanel=new JPanel();
         phonePanel.setLayout(new BoxLayout(phonePanel, BoxLayout.Y_AXIS));
         phonePanel.add(phone_label);
@@ -79,7 +76,6 @@ public class ChiNhanh_AdminView extends JPanel {
         address_label.setFont(new Font("Arial", Font.BOLD, 15));
         address_label.setForeground(new Color(1, 119, 219));
         address=new JTextField(10);
-        address.setEditable(false);
         JPanel addressPanel=new JPanel();
         addressPanel.setLayout(new BoxLayout(addressPanel, BoxLayout.Y_AXIS));
         addressPanel.add(address_label);
@@ -88,7 +84,6 @@ public class ChiNhanh_AdminView extends JPanel {
         timeOpen_label.setFont(new Font("Arial", Font.BOLD, 15));
         timeOpen_label.setForeground(new Color(1, 119, 219));
         timeOpen=new JTextField(10);
-        timeOpen.setEditable(false);
         JPanel timeOpenPanel=new JPanel();
         timeOpenPanel.setLayout(new BoxLayout(timeOpenPanel, BoxLayout.Y_AXIS));
         timeOpenPanel.add(timeOpen_label);
@@ -162,6 +157,7 @@ public class ChiNhanh_AdminView extends JPanel {
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         CallStoredProcedure call=new CallStoredProcedure();
         call.ESP_XemDanhSachChiNhanhAdmin(model,maDT);
+        System.out.println(maDT);
 
 
         // add table to scrollpane
@@ -250,9 +246,10 @@ public class ChiNhanh_AdminView extends JPanel {
                 if (row == -1) {
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn chi nhánh cần cập nhật");
                 } else {
-                    call.sp_CapNhatTinhTrangCN(maDT,model.getValueAt(row, 0).toString(),status.getText());
-                    model.setValueAt(status.getText(), row, 6);
-                    status.setText(status.getText());
+                    String stt=status.getText();
+                    CallStoredProcedure newCall=new CallStoredProcedure();
+                    newCall.sp_CapNhatTinhTrangCN(maDT,model.getValueAt(row, 0).toString(),stt);
+                    model.setValueAt(stt, row, 6);
                     JOptionPane.showMessageDialog(null, "Cập nhật thành công");
 
 

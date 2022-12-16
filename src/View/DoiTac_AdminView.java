@@ -250,7 +250,7 @@ public class DoiTac_AdminView extends JPanel {
                 else{
                     Window win = SwingUtilities.getWindowAncestor(DoiTac_AdminView.this);
                     win.dispose();
-                    //new ChiNhanh_AdminView(madt.getText()).createAndShowGUI(madt.getText());
+                    new ChiNhanh_AdminView(madt.getText(),"DT000001").createAndShowGUI(madt.getText(),"DT000001");
                 }
             }
         });

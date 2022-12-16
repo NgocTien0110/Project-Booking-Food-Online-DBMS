@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ChiNhanh_UserView extends JPanel {
     private JComboBox status;
@@ -218,19 +219,19 @@ public class ChiNhanh_UserView extends JPanel {
         status.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (status.getSelectedItem().toString().equals("Tất cả")) {
+                if (Objects.requireNonNull(status.getSelectedItem()).toString().equals("Tất cả")) {
                     model.setRowCount(0);
                     CallStoredProcedure call = new CallStoredProcedure();
                     call.ESP_XemDanhSachChiNhanhUser(model, maDT);
                 } else if (status.getSelectedItem().toString().equals("Đang hoạt động")) {
                     model.setRowCount(0);
                     CallStoredProcedure call = new CallStoredProcedure();
-                    call.sp_TimKiemChiNhanhHD(model, maDT);
+                    call.sp_TimKiemChiNhanhHD(model, maDT,"Đang hoạt động");
 
                 } else if (status.getSelectedItem().toString().equals("Đóng cửa")) {
                     model.setRowCount(0);
                     CallStoredProcedure call = new CallStoredProcedure();
-                    call.ESP_XemDanhSachChiNhanhUser(model, maDT);
+                    call.sp_TimKiemChiNhanhHD(model, maDT,"Đóng cửa");
                 }
             }
         });

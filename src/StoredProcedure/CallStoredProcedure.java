@@ -76,21 +76,49 @@ public class CallStoredProcedure {
             return check;
         }
     }
-    public int sp_TimKiemChiNhanhHD(DefaultTableModel model,String maDT)
+    public int sp_TimKiemChiNhanhHD(DefaultTableModel model,String maDT,String status)
     {
         try {
-            PreparedStatement pst = con.prepareStatement("{call sp_TimKiemChiNhanhHD(?)}");
+            PreparedStatement pst = con.prepareStatement("{call sp_TimKiemChiNhanhHD(?,?)}");
             pst.setString(1,maDT);
+            pst.setString(2,status);
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
+                String MaChiNhanh = rs.getString("MaChiNhanh");
                 String MaDoiTac = rs.getString("MaDoiTac");
                 String TenChiNhanh = rs.getString("TenChiNhanh");
                 String DCChiNhanh = rs.getString("DCChiNhanh");
                 String TinhTrangHoatDong = rs.getString("TinhTrangHoatDong");
                 Time ThoiGianMoCua = rs.getTime("ThoiGianMoCua");
                 Time ThoiGianDongCua = rs.getTime("ThoiGianDongCua");
-                model.addRow(new Object[]{MaDoiTac, TenChiNhanh, DCChiNhanh, ThoiGianMoCua, ThoiGianDongCua,TinhTrangHoatDong});
+                model.addRow(new Object[]{MaChiNhanh,TenChiNhanh,MaDoiTac, DCChiNhanh, ThoiGianMoCua, ThoiGianDongCua,TinhTrangHoatDong});
+
+            }
+            return 1;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+    public int xuly_TimKiemChiNhanhHD(DefaultTableModel model,String maDT,String status)
+    {
+        try {
+            PreparedStatement pst = con.prepareStatement("{call xuly_TimKiemChiNhanhHD(?,?)}");
+            pst.setString(1,maDT);
+            pst.setString(2,status);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String MaChiNhanh = rs.getString("MaChiNhanh");
+                String MaDoiTac = rs.getString("MaDoiTac");
+                String TenChiNhanh = rs.getString("TenChiNhanh");
+                String DCChiNhanh = rs.getString("DCChiNhanh");
+                String TinhTrangHoatDong = rs.getString("TinhTrangHoatDong");
+                Time ThoiGianMoCua = rs.getTime("ThoiGianMoCua");
+                Time ThoiGianDongCua = rs.getTime("ThoiGianDongCua");
+                model.addRow(new Object[]{MaChiNhanh,TenChiNhanh,MaDoiTac, DCChiNhanh, ThoiGianMoCua, ThoiGianDongCua,TinhTrangHoatDong});
 
             }
             return 1;
