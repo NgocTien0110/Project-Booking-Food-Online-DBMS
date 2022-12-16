@@ -241,19 +241,19 @@ public class UpdateInfoContractView extends JFrame implements ActionListener {
             int check = 0;
             if (option.equals("Đã duyệt") && daDuyet == true) { //Trước và sau của hợp đồng đều là đã duyệt
 //                check = contractProcedure.SP_LUCapNhatThoiGianHLHopDong(MaHopDong,Integer.parseInt(inputTimeRemain.getText()));
-//                check = contractProcedure.SP_CapNhatThoiGianHLHopDongXuLyLu(MaHopDong,Integer.parseInt(inputTimeRemain.getText()));
+                check = contractProcedure.SP_CapNhatThoiGianHLHopDongXuLyLu(MaHopDong,Integer.parseInt(inputTimeRemain.getText()));
 //                check = contractProcedure.SP_DLCapNhatThoiGianHLHopDong(MaHopDong,Integer.parseInt(inputTimeRemain.getText()));
-                check = contractProcedure.SP_CapNhatThoiGianHLHopDongXuLyDL(MaHopDong,Integer.parseInt(inputTimeRemain.getText()));
+//                check = contractProcedure.SP_CapNhatThoiGianHLHopDongXuLyDL(MaHopDong,Integer.parseInt(inputTimeRemain.getText()));
             } else if (option.equals("Đã duyệt") && daDuyet == false) { //Trước là chưa duyệt và sau là đã duyệt
 //                check = contractProcedure.SP_LUCapNhatThoiGianHLHopDong(MaHopDong,0);
-//                check = contractProcedure.SP_CapNhatThoiGianHLHopDongXuLyLu(MaHopDong,0);
+                check = contractProcedure.SP_CapNhatThoiGianHLHopDongXuLyLu(MaHopDong,0);
 //                check = contractProcedure.SP_DLCapNhatThoiGianHLHopDong(MaHopDong,0);
-                check = contractProcedure.SP_CapNhatThoiGianHLHopDongXuLyDL(MaHopDong,0);
+//                check = contractProcedure.SP_CapNhatThoiGianHLHopDongXuLyDL(MaHopDong,0);
             } else if (option.equals("Chưa duyệt") && daDuyet == true) { //Trước là đã duyệt và sau là chưa duyệt
 //                check = contractProcedure.SP_LUCapNhatThoiGianHLHopDong(MaHopDong,-1);
-//                check = contractProcedure.SP_CapNhatThoiGianHLHopDongXuLyLu(MaHopDong,-1);
+                check = contractProcedure.SP_CapNhatThoiGianHLHopDongXuLyLu(MaHopDong,-1);
 //                check = contractProcedure.SP_DLCapNhatThoiGianHLHopDong(MaHopDong,-1);
-                check = contractProcedure.SP_CapNhatThoiGianHLHopDongXuLyDL(MaHopDong,-1);
+//                check = contractProcedure.SP_CapNhatThoiGianHLHopDongXuLyDL(MaHopDong,-1);
             }
 
             if (check == 1) {

@@ -4,6 +4,7 @@ import DAO.TaiKhoanDAO;
 import DAO.ThucDonDAO;
 import Model.TaiKhoanModel;
 import Model.ThucDonModel;
+import StoredProcedure.DatDonHangProcedure;
 import database.JDBCUtil;
 
 import javax.swing.*;
@@ -11,9 +12,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 
 public class OrderFoodView extends JFrame implements ActionListener {
@@ -129,7 +132,18 @@ public class OrderFoodView extends JFrame implements ActionListener {
         labelOption.setFont(fontBody);
         labelOption.setForeground(new Color(39, 167, 239));
 
-        String[] option = new String[] {"Ít đá", "Nhiều đá", "Ít đường", "Nhiều đường", "Bình thường"};
+        String[] option;
+        if (TenMonAn.equals("Cơm gà") || TenMonAn.equals("Cơm sườn") || TenMonAn.equals("Cơm chiên dương châu")) {
+            option = new String[] {"Thêm cơm","Bình thường"};
+        }
+        else if (TenMonAn.equals("Bún đậu") || TenMonAn.equals("Bún cua")) {
+            option = new String[] {"Thêm bún","Bình thường"};
+        }
+        else if (TenMonAn.equals("Phở bò") || TenMonAn.equals("Phở gà") || TenMonAn.equals("Bánh canh")) {
+            option = new String[] {"Thêm bánh phở","Bình thường"};
+        } else {
+            option = new String[] {"Ít đá", "Nhiều đá", "Ít đường", "Nhiều đường", "Bình thường"};
+        }
         JPanel panelOption = new JPanel(new GridLayout(2,1,5,0));
         inputOption = new JComboBox<String>(option);
         panelOption.add(labelOption);
@@ -198,9 +212,14 @@ public class OrderFoodView extends JFrame implements ActionListener {
 
             JPanel panelShipFee = new JPanel(new GridLayout(2,1,5,0));
             inputShipFee = new JTextField(20);
-            double shipFee;
+            float shipFee;
             int slMonDat = Integer.valueOf(inputNumberFood.getText());
             double price = Double.valueOf(inputPrice.getText());
+            String tenMonAn = inputFoodName.getText();
+            String address = inputAddress.getText();
+            String hinhThucThanhToan = (String) inputPayment.getSelectedItem();
+            String option = (String) inputOption.getSelectedItem();
+
             if (slMonDat * price >= 50.000) {
                 shipFee = 5000;
             } else {
@@ -217,6 +236,7 @@ public class OrderFoodView extends JFrame implements ActionListener {
             JPanel panelTotalPrice = new JPanel(new GridLayout(2,1,5,0));
             inputTotalPrice = new JTextField(20);
             inputTotalPrice.setText(String.valueOf(slMonDat*price));
+            inputTotalPrice.setEditable(false);
             panelTotalPrice.add(labelTotalPrice);
             panelTotalPrice.add(inputTotalPrice);
 
@@ -236,10 +256,20 @@ public class OrderFoodView extends JFrame implements ActionListener {
                     "Chỉnh sửa Slang Word", JOptionPane.OK_CANCEL_OPTION);
 
             if (result == JOptionPane.OK_OPTION) {
-                JOptionPane.showMessageDialog(null, "Đặt hàng thành công",
-                        "Thông báo",JOptionPane.INFORMATION_MESSAGE);
-            } else {
-
+                DatDonHangProcedure datDonHangProcedure = new DatDonHangProcedure();
+//                int check = datDonHangProcedure.SP_LUDatDonHang("Chờ nhận",(slMonDat*price)+shipFee,hinhThucThanhToan,
+//                        address,shipFee,MaChiNhanh, MaDoiTac,MaTaiKhoan, slMonDat, option,MaMonAn);
+                int check = datDonHangProcedure.SP_DatDonHangMonAnXuLyLu("Chờ nhận",(slMonDat*price)+shipFee,hinhThucThanhToan,
+                        address,shipFee,MaChiNhanh, MaDoiTac,MaTaiKhoan, slMonDat, option,MaMonAn);
+                if (check == 1) {
+                    JOptionPane.showMessageDialog(null, "Đặt hàng thành công",
+                            "Thông báo",JOptionPane.INFORMATION_MESSAGE);
+                    new FoodListForCustomersView(MaDoiTac, MaChiNhanh, MaTaiKhoan);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Đặt hàng thất bại",
+                            "Thông báo",JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }
