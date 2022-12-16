@@ -57,6 +57,9 @@ public class DanhSachHopDongView extends JFrame implements ActionListener {
         jPanelSearch.setLayout(new GridLayout(1, 2, 0, 0));
         inputSearch = new JTextField();
         buttonSearch = new JButton("Tìm kiếm");
+        buttonSearch.setForeground(Color.WHITE);
+        buttonSearch.setBackground(new Color(1, 119, 219));
+
         jPanelSearch.add(inputSearch);
         jPanelSearch.add(buttonSearch);
 
@@ -169,7 +172,12 @@ public class DanhSachHopDongView extends JFrame implements ActionListener {
         jPanelBodyBottom.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
         buttonViewDetails = new JButton("Xem chi tiết");
         buttonViewDetails.addActionListener(this);
+        buttonViewDetails.setForeground(Color.WHITE);
+        buttonViewDetails.setBackground(new Color(1, 119, 219));
+
         buttonBack = new JButton("Quay lại");
+        buttonBack.setForeground(Color.WHITE);
+        buttonBack.setBackground(new Color(1, 119, 219));
         buttonBack.addActionListener(this);
 
         jPanelBodyBottom.add(buttonBack);

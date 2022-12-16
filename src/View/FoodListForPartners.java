@@ -65,6 +65,9 @@ public class FoodListForPartners extends JFrame implements ActionListener {
         jPanelSearch.setLayout(new GridLayout(1, 2, 0, 0));
         inputSearch = new JTextField();
         buttonSearch = new JButton("Tìm kiếm");
+        buttonSearch.setForeground(Color.WHITE);
+        buttonSearch.setBackground(new Color(1, 119, 219));
+
         jPanelSearch.add(inputSearch);
         jPanelSearch.add(buttonSearch);
 
@@ -167,8 +170,17 @@ public class FoodListForPartners extends JFrame implements ActionListener {
         jPanelBodyBottom.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
         buttonBack = new JButton("Quay lại");
         buttonBack.addActionListener(this);
+        buttonBack.setForeground(Color.WHITE);
+        buttonBack.setBackground(new Color(1, 119, 219));
+
         buttonAdd = new JButton("Thêm");
+        buttonAdd.setForeground(Color.WHITE);
+        buttonAdd.setBackground(new Color(1, 119, 219));
+
         buttonUpdate = new JButton("Sửa");
+        buttonUpdate.setForeground(Color.WHITE);
+        buttonUpdate.setBackground(new Color(1, 119, 219));
+
         buttonUpdate.addActionListener(new ActionListener() {
                                            @Override
                                            public void actionPerformed(ActionEvent e) {
@@ -216,6 +228,8 @@ public class FoodListForPartners extends JFrame implements ActionListener {
 
 
         buttonDelete = new JButton("Xóa");
+        buttonDelete.setForeground(Color.WHITE);
+        buttonDelete.setBackground(new Color(1, 119, 219));
         buttonDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

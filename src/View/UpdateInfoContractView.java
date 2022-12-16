@@ -191,16 +191,19 @@ public class UpdateInfoContractView extends JFrame implements ActionListener {
 
                 JButton jButtonBack = new JButton("Quay lại");
                 jButtonBack.setPreferredSize(new Dimension(130, 60));
-                jButtonBack.setBackground(new Color(217, 217, 217));
+                jButtonBack.setForeground(Color.WHITE);
+                jButtonBack.setBackground(new Color(1, 119, 219));
                 jButtonBack.addActionListener(this);
 
                 JButton jButtonNoti = new JButton("Thông báo đối tác");
                 jButtonNoti.setPreferredSize(new Dimension(160, 60));
-                jButtonNoti.setBackground(new Color(217, 217, 217));
+                jButtonNoti.setForeground(Color.WHITE);
+                jButtonNoti.setBackground(new Color(1, 119, 219));
 
                 JButton jButtonUpdateInfo = new JButton("Cập nhật");
                 jButtonUpdateInfo.setPreferredSize(new Dimension(130, 60));
-                jButtonUpdateInfo.setBackground(new Color(217, 217, 217));
+                jButtonUpdateInfo.setForeground(Color.WHITE);
+                jButtonUpdateInfo.setBackground(new Color(1, 119, 219));
                 jButtonUpdateInfo.addActionListener(this);
 
                 JPanel jPanelBot = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 60));

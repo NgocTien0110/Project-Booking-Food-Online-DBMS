@@ -174,12 +174,14 @@ public class OrderFoodView extends JFrame implements ActionListener {
 
         JButton jButtonBack = new JButton("Quay lại");
         jButtonBack.setPreferredSize(new Dimension(215,60));
-        jButtonBack.setBackground(new Color(217, 217, 217));
+        jButtonBack.setForeground(Color.WHITE);
+        jButtonBack.setBackground(new Color(1, 119, 219));
         jButtonBack.addActionListener(this);
 
         JButton jButtonOrder = new JButton("Đặt hàng");
         jButtonOrder.setPreferredSize(new Dimension(215,60));
-        jButtonOrder.setBackground(new Color(217, 217, 217));
+        jButtonOrder.setForeground(Color.WHITE);
+        jButtonOrder.setBackground(new Color(1, 119, 219));
         jButtonOrder.addActionListener(this);
 
         JPanel jPanelBot = new JPanel(new FlowLayout(FlowLayout.CENTER, 60,60));

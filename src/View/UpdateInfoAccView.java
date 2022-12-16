@@ -102,7 +102,8 @@ public class UpdateInfoAccView extends JFrame implements ActionListener {
         panelEmail.add(inputEmail);
 
         JButton buttonUpdatePass = new JButton("Cập nhật mật khẩu");
-        buttonUpdatePass.setBackground(new Color(217, 217, 217));
+        buttonUpdatePass.setForeground(Color.WHITE);
+        buttonUpdatePass.setBackground(new Color(1, 119, 219));
 
         JLabel labelPhoneNum = new JLabel("Số điện thoại");
         labelPhoneNum.setFont(fontBody);
@@ -131,12 +132,14 @@ public class UpdateInfoAccView extends JFrame implements ActionListener {
 
         JButton jButtonBack = new JButton("Quay lại");
         jButtonBack.setPreferredSize(new Dimension(215,60));
-        jButtonBack.setBackground(new Color(217, 217, 217));
+        jButtonBack.setForeground(Color.WHITE);
+        jButtonBack.setBackground(new Color(1, 119, 219));
         jButtonBack.addActionListener(this);
 
         JButton jButtonUpdateInfo = new JButton("Cập nhật");
         jButtonUpdateInfo.setPreferredSize(new Dimension(215,60));
-        jButtonUpdateInfo.setBackground(new Color(217, 217, 217));
+        jButtonUpdateInfo.setForeground(Color.WHITE);
+        jButtonUpdateInfo.setBackground(new Color(1, 119, 219));
 
         JPanel jPanelBot = new JPanel(new FlowLayout(FlowLayout.CENTER, 60,60));
         jPanelBot.add(jButtonBack);
