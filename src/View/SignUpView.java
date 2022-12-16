@@ -24,7 +24,7 @@ public class SignUpView extends JFrame {
     private JTextField inputFullname;
     private JComboBox<String> inputAccountType;
 
-    private String accountType[] = {"Khách hàng", "Tài xế", "Đối tác", "Nhân viên"};
+    private String accountType[] = {"Khách hàng", "Tài xế", "Đối tác"};
 
     public SignUpView() {
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -100,23 +100,23 @@ public class SignUpView extends JFrame {
         panelConfirmPassword.add(labelConfirmPassword);
         panelConfirmPassword.add(inputConfirmpassword);
 
-//        JLabel labelFullname = new JLabel("Họ và tên");
-//        labelFullname.setFont(fontBody);
-//        labelFullname.setForeground(new Color(39, 167, 239));
-//
-//        JPanel panelFullname = new JPanel(new GridLayout(2, 1, 5, 0));
-//        inputFullname = new JTextField(50);
-//        panelFullname.add(labelFullname);
-//        panelFullname.add(inputFullname);
-//
-//        JLabel labelPhone = new JLabel("Số điện thoại");
-//        labelPhone.setFont(fontBody);
-//        labelPhone.setForeground(new Color(39, 167, 239));
-//
-//        JPanel panelPhone = new JPanel(new GridLayout(2, 1, 5, 0));
-//        inputPhone = new JTextField(50);
-//        panelPhone.add(labelPhone);
-//        panelPhone.add(inputPhone);
+        JLabel labelFullname = new JLabel("Họ và tên");
+        labelFullname.setFont(fontBody);
+        labelFullname.setForeground(new Color(39, 167, 239));
+
+        JPanel panelFullname = new JPanel(new GridLayout(2, 1, 5, 0));
+        inputFullname = new JTextField(50);
+        panelFullname.add(labelFullname);
+        panelFullname.add(inputFullname);
+
+        JLabel labelPhone = new JLabel("Số điện thoại");
+        labelPhone.setFont(fontBody);
+        labelPhone.setForeground(new Color(39, 167, 239));
+
+        JPanel panelPhone = new JPanel(new GridLayout(2, 1, 5, 0));
+        inputPhone = new JTextField(50);
+        panelPhone.add(labelPhone);
+        panelPhone.add(inputPhone);
 
         JLabel labelAddress = new JLabel("Địa chỉ");
         labelAddress.setFont(fontBody);
@@ -141,8 +141,8 @@ public class SignUpView extends JFrame {
         jPanelBody.add(panelEmail);
         jPanelBody.add(panelPassword);
         jPanelBody.add(panelConfirmPassword);
-//        jPanelBody.add(panelPhone);
-//        jPanelBody.add(panelFullname);
+        jPanelBody.add(panelPhone);
+        jPanelBody.add(panelFullname);
         jPanelBody.add(panelAddress);
         jPanelBody.add(panelAccountType);
 
@@ -159,16 +159,18 @@ public class SignUpView extends JFrame {
                 String confirmPassword = inputConfirmpassword.getText();
                 String address = inputAddress.getText();
                 String accountType = inputAccountType.getSelectedItem().toString();
+                String fullname = inputFullname.getText();
+                String sdt = inputPhone.getText();
 
-                if (username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || address.isEmpty()) {
+                if (username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || address.isEmpty()  || fullname.isEmpty() || sdt.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin");
                 } else if (!password.equals(confirmPassword)) {
                     JOptionPane.showMessageDialog(null, "Mật khẩu không khớp");
                 } else {
                     if(accountType.equals("Khách hàng")) {
                         DANG_KY dangKy = new DANG_KY();
-                        int sta = dangKy.DANG_KY_KH(username, password, address, email);
-                        System.out.println("sta" + sta);
+                        int sta = dangKy.DANG_KY_KH(username, password,fullname,sdt, address, email);
+
                         if (sta == 1) {
                             JOptionPane.showMessageDialog(null, "Đăng ký thành công");
                             dispose();
@@ -179,8 +181,8 @@ public class SignUpView extends JFrame {
                     }
                     if (accountType.equals("Tài xế")) {
                         DANG_KY dangKy = new DANG_KY();
-                        int sta = dangKy.DANG_KY_TX(username, password, address, email);
-                        System.out.println("sta" + sta);
+                        int sta = dangKy.DANG_KY_TX(username, password,fullname,sdt, address, email);
+
                         if (sta == 1) {
                             JOptionPane.showMessageDialog(null, "Đăng ký thành công");
                             dispose();
@@ -191,20 +193,8 @@ public class SignUpView extends JFrame {
                     }
                     if (accountType.equals("Đối tác")) {
                         DANG_KY dangKy = new DANG_KY();
-                        int sta = dangKy.DANG_KY_DT(username, password, address, email);
-                        System.out.println("sta" + sta);
-                        if (sta == 1) {
-                            JOptionPane.showMessageDialog(null, "Đăng ký thành công");
-                            dispose();
-                            new LoginView();
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Đăng ký thất bại");
-                        }
-                    }
-                    if (accountType.equals("Nhân viên")) {
-                        DANG_KY dangKy = new DANG_KY();
-                        int sta = dangKy.DANG_KY_NV(username, password, address, email);
-                        System.out.println("sta" + sta);
+                        int sta = dangKy.DANG_KY_DT(username, password,fullname,sdt, address, email);
+
                         if (sta == 1) {
                             JOptionPane.showMessageDialog(null, "Đăng ký thành công");
                             dispose();

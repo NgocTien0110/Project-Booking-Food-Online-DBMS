@@ -239,21 +239,22 @@ public class UpdateInfoContractView extends JFrame implements ActionListener {
         else if(acStr.equals("Cập nhật")) {
             String option = (String) inputStatusContract.getSelectedItem();
             ContractProcedure contractProcedure = new ContractProcedure();
-            if (option.equals("Đã duyệt") && daDuyet==true) {
+            if (option.equals("Đã duyệt") && daDuyet==true) { //Trước và sau của hợp đồng đều là đã duyệt
 
-            } else if(option.equals("Đã duyệt") && daDuyet == false) {
+            } else if(option.equals("Đã duyệt") && daDuyet == false) { //Trước là chưa duyệt và sau là đã duyệt
 
-            } else if (option.equals("Chưa duyệt") && daDuyet == true) {
+            } else if (option.equals("Chưa duyệt") && daDuyet == true) { //Trước là đã duyệt và sau là chưa duyệt
 
             }
-            int check = contractProcedure.SP_LUCapNhatThoiGianHLHopDong(MaHopDong,Integer.parseInt(inputTimeRemain.getText()));
-            if (check == 1) {
-                JOptionPane.showMessageDialog(null, "Cập nhật thời gian hiệu lực thành công",
-                        "Thông báo",JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Cập nhật thời gian hiệu lực thất bại",
-                        "Thông báo",JOptionPane.ERROR_MESSAGE);
-            }
+            System.out.println(option);
+//            int check = contractProcedure.SP_LUCapNhatThoiGianHLHopDong(MaHopDong,Integer.parseInt(inputTimeRemain.getText()));
+//            if (check == 1) {
+//                JOptionPane.showMessageDialog(null, "Cập nhật thời gian hiệu lực thành công",
+//                        "Thông báo",JOptionPane.INFORMATION_MESSAGE);
+//            } else {
+//                JOptionPane.showMessageDialog(null, "Cập nhật thời gian hiệu lực thất bại",
+//                        "Thông báo",JOptionPane.ERROR_MESSAGE);
+//            }
         }
     }
 }
