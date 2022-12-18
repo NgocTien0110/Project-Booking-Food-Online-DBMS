@@ -237,7 +237,8 @@ public class FoodListForPartners extends JFrame implements ActionListener {
                 String maMonAn = tableFoodList.getValueAt(row, 0).toString();
 
                 XOA_MON_AN callStoredProcedure = new XOA_MON_AN();
-                int sta = callStoredProcedure.XOA_MON_AN(maDoiTac, maMonAn, maChiNhanh);
+                //int sta = callStoredProcedure.XOA_MON_AN(maDoiTac, maMonAn, maChiNhanh);
+                int sta = callStoredProcedure.XOA_MON_AN_XuLyPhanTom(maDoiTac, maMonAn, maChiNhanh);
                 if (sta == 1) {
                     JOptionPane.showMessageDialog(null, "Xóa thành công");
                     // refresh table
@@ -246,7 +247,8 @@ public class FoodListForPartners extends JFrame implements ActionListener {
                     kh_xem_mon_an.KH_XEM_MON_AN(model, maDoiTac, maChiNhanh);
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "Xóa thất bại");
+                    JOptionPane.showMessageDialog(null, "Xóa thất bại",
+                            "Thông báo",JOptionPane.ERROR_MESSAGE);
                     // refresh table
                     model.setRowCount(0);
                     XEM_MON_AN kh_xem_mon_an = new XEM_MON_AN();

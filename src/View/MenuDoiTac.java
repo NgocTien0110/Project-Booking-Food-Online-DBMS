@@ -71,7 +71,7 @@ public class MenuDoiTac extends JFrame implements ActionListener {
         buttonViewListChiNhanh = new JButton("Chỉnh sửa thông tin chi nhánh");
         buttonViewListChiNhanh.setBackground(new Color(1, 119, 216));
         buttonViewListChiNhanh.setForeground(Color.white);
-        buttonViewListChiNhanh.setFont(new Font("Arial", Font.BOLD, 20));
+        buttonViewListChiNhanh.setFont(new Font("Arial", Font.BOLD, 18));
         buttonViewListChiNhanh.addActionListener(this);
 
         buttonLogout = new JButton("Đăng xuất");

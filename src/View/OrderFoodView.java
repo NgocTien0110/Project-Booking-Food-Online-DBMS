@@ -261,7 +261,9 @@ public class OrderFoodView extends JFrame implements ActionListener {
                 DatDonHangProcedure datDonHangProcedure = new DatDonHangProcedure();
 //                int check = datDonHangProcedure.SP_LUDatDonHang("Chờ nhận",(slMonDat*price)+shipFee,hinhThucThanhToan,
 //                        address,shipFee,MaChiNhanh, MaDoiTac,MaTaiKhoan, slMonDat, option,MaMonAn);
-                int check = datDonHangProcedure.SP_DatDonHangMonAnXuLyLu("Chờ nhận",(slMonDat*price)+shipFee,hinhThucThanhToan,
+//                int check = datDonHangProcedure.SP_DatDonHangMonAnXuLyLu("Chờ nhận",(slMonDat*price)+shipFee,hinhThucThanhToan,
+//                        address,shipFee,MaChiNhanh, MaDoiTac,MaTaiKhoan, slMonDat, option,MaMonAn);
+                int check = datDonHangProcedure.SP_DatDonHangMonAnPhantom("Chờ nhận",(slMonDat*price)+shipFee,hinhThucThanhToan,
                         address,shipFee,MaChiNhanh, MaDoiTac,MaTaiKhoan, slMonDat, option,MaMonAn);
                 if (check == 1) {
                     JOptionPane.showMessageDialog(null, "Đặt hàng thành công",
