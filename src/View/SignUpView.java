@@ -87,7 +87,7 @@ public class SignUpView extends JFrame {
         labelPassword.setForeground(new Color(39, 167, 239));
 
         JPanel panelPassword = new JPanel(new GridLayout(2, 1, 5, 0));
-        inputPassword = new JTextField(50);
+        inputPassword = new JPasswordField(50);
         panelPassword.add(labelPassword);
         panelPassword.add(inputPassword);
 
@@ -96,7 +96,7 @@ public class SignUpView extends JFrame {
         labelConfirmPassword.setForeground(new Color(39, 167, 239));
 
         JPanel panelConfirmPassword = new JPanel(new GridLayout(2, 1, 5, 0));
-        inputConfirmpassword = new JTextField(50);
+        inputConfirmpassword = new JPasswordField(50);
         panelConfirmPassword.add(labelConfirmPassword);
         panelConfirmPassword.add(inputConfirmpassword);
 
